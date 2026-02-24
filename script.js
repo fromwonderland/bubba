@@ -359,6 +359,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         font-family: 'Times New Roman', Times, serif;
                         font-style: italic;
                         text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    
+                    .song-counter {
+                        font-size: 1.2rem;
+                        color: #ff85a1;
+                        font-weight: bold;
                     }
                     
                     .playlist {
@@ -509,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     .zodiac-image {
-                        max-width: 150px;
+                        max-width: 250px;
                         width: 100%;
                         height: auto;
                         border-radius: 10px;
@@ -520,6 +529,80 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     .zodiac-image:hover {
                         transform: scale(1.1);
+                    }
+                    
+                    .poetic-text {
+                        max-width: 600px;
+                        margin: 40px auto 20px;
+                        text-align: center;
+                        color: white;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                        font-size: 1.1rem;
+                        line-height: 1.8;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                        padding: 20px;
+                        background: rgba(255,255,255,0.05);
+                        border-radius: 15px;
+                        backdrop-filter: blur(5px);
+                    }
+                    
+                    .poetic-text p {
+                        margin: 8px 0;
+                        opacity: 0;
+                        animation: fadeInText 0.8s ease forwards;
+                    }
+                    
+                    .poetic-text p:nth-child(1) { animation-delay: 0.2s; }
+                    .poetic-text p:nth-child(2) { animation-delay: 0.4s; }
+                    .poetic-text p:nth-child(3) { animation-delay: 0.6s; }
+                    .poetic-text p:nth-child(4) { animation-delay: 0.8s; }
+                    .poetic-text p:nth-child(5) { animation-delay: 1.0s; }
+                    .poetic-text p:nth-child(6) { animation-delay: 1.2s; }
+                    .poetic-text p:nth-child(7) { animation-delay: 1.4s; }
+                    .poetic-text p:nth-child(8) { animation-delay: 1.6s; }
+                    .poetic-text p:nth-child(9) { animation-delay: 1.8s; }
+                    .poetic-text p:nth-child(10) { animation-delay: 2.0s; }
+                    .poetic-text p:nth-child(11) { animation-delay: 2.2s; }
+                    .poetic-text p:nth-child(12) { animation-delay: 2.4s; }
+                    .poetic-text p:nth-child(13) { animation-delay: 2.6s; }
+                    .poetic-text p:nth-child(14) { animation-delay: 2.8s; }
+                    .poetic-text p:nth-child(15) { animation-delay: 3.0s; }
+                    .poetic-text p:nth-child(16) { animation-delay: 3.2s; }
+                    .poetic-text p:nth-child(17) { animation-delay: 3.4s; }
+                    .poetic-text p:nth-child(18) { animation-delay: 3.6s; }
+                    .poetic-text p:nth-child(19) { animation-delay: 3.8s; }
+                    .poetic-text p:nth-child(20) { animation-delay: 4.0s; }
+                    .poetic-text p:nth-child(21) { animation-delay: 4.2s; }
+                    .poetic-text p:nth-child(22) { animation-delay: 4.4s; }
+                    .poetic-text p:nth-child(23) { animation-delay: 4.6s; }
+                    .poetic-text p:nth-child(24) { animation-delay: 4.8s; }
+                    .poetic-text p:nth-child(25) { animation-delay: 5.0s; }
+                    .poetic-text p:nth-child(26) { animation-delay: 5.2s; }
+                    .poetic-text p:nth-child(27) { animation-delay: 5.4s; }
+                    .poetic-text p:nth-child(28) { animation-delay: 5.6s; }
+                    .poetic-text p:nth-child(29) { animation-delay: 5.8s; }
+                    .poetic-text p:nth-child(30) { animation-delay: 6.0s; }
+                    .poetic-text p:nth-child(31) { animation-delay: 6.2s; }
+                    .poetic-text p:nth-child(32) { animation-delay: 6.4s; }
+                    .poetic-text p:nth-child(33) { animation-delay: 6.6s; }
+                    .poetic-text p:nth-child(34) { animation-delay: 6.8s; }
+                    .poetic-text p:nth-child(35) { animation-delay: 7.0s; }
+                    .poetic-text p:nth-child(36) { animation-delay: 7.2s; }
+                    .poetic-text p:nth-child(37) { animation-delay: 7.4s; }
+                    .poetic-text p:nth-child(38) { animation-delay: 7.6s; }
+                    .poetic-text p:nth-child(39) { animation-delay: 7.8s; }
+                    .poetic-text p:nth-child(40) { animation-delay: 8.0s; }
+                    
+                    @keyframes fadeInText {
+                        from {
+                            opacity: 0;
+                            transform: translateY(20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
                     }
                 `;
                 document.head.appendChild(cakeStyles);
@@ -581,12 +664,16 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Variables globales pour les feux d'artifice
+let fireworksStarted = false;
+let animationId = null;
+let autoLaunchId = null;
+
 // Fonction pour initialiser la logique du gâteau
 function initCakeLogic() {
     const cake = document.getElementById('cake');
     const uiText = document.getElementById('ui-text');
     let candleCount = 0;
-    let fireworksStarted = false;
 
     // Position des bougies (en pourcentage horizontal)
     const positions = [25, 50, 75];
@@ -628,16 +715,13 @@ function initCakeLogic() {
 function startFireworks() {
     // Créer le canvas pour les feux d'artifice
     const canvas = document.createElement('canvas');
-    canvas.id = 'fireworks';
-    canvas.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        pointer-events: none;
-    `;
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100vh';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '5'; // Derrière le gâteau mais devant le fond
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
@@ -699,8 +783,6 @@ function startFireworks() {
     }
 
     let particles = [];
-    let animationId = null;
-    let autoLaunchId = null;
 
     function createFirework(x, y) {
         // Couleurs pastel
@@ -789,7 +871,10 @@ function initMusicLogic() {
                 <img id="spinning-vinyl" class="vinyl-player" src="images/vinyl2.jpeg" alt="Spinning Vinyl">
             </div>
             <div class="playlist-container">
-                <h2 class="playlist-title">☆ anniversary playlist ☆</h2>
+                <h2 class="playlist-title">
+                    <span>☆ anniversary playlist ☆</span>
+                    <span class="song-counter" id="song-counter">1/22</span>
+                </h2>
                 <ul class="playlist" id="playlist">
                     <!-- Playlist sera remplie dynamiquement -->
                 </ul>
@@ -860,6 +945,15 @@ function initMusicLogic() {
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const loopBtn = document.getElementById('loop-btn');
+    const songCounter = document.getElementById('song-counter');
+    
+    // Fonction pour mettre à jour le compteur de chansons
+    function updateSongCounter() {
+        songCounter.textContent = `${currentSongIndex + 1}/22`;
+    }
+    
+    // Initialiser le compteur
+    updateSongCounter();
     
     // Gestion du clic sur le vinyle
     vinylImage.addEventListener('click', () => {
@@ -924,6 +1018,7 @@ function initMusicLogic() {
         document.querySelectorAll('.playlist-item').forEach((item, index) => {
             item.classList.toggle('active', index === currentSongIndex);
         });
+        updateSongCounter();
     }
     
     function playSong() {
@@ -1021,6 +1116,7 @@ function initMusicLogic() {
         document.querySelectorAll('.playlist-item').forEach((item, index) => {
             item.classList.toggle('active', index === currentSongIndex);
         });
+        updateSongCounter();
     }
     
     function playSong() {
@@ -1041,7 +1137,7 @@ function initMusicLogic() {
         const scrollPosition = window.scrollY + window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
         
-        if (scrollPosition >= documentHeight * 0.5 && !musicSectionShown) {
+        if (scrollPosition >= documentHeight * 0.3 && !musicSectionShown) {
             musicSection.classList.add('visible');
             musicSectionShown = true;
         }
@@ -1081,27 +1177,23 @@ function initMusicLogic() {
     // Gestion du clic sur les images suit
     suitImage.addEventListener('click', () => {
         if (currentSuitImage === 1) {
-            // Passage à suit2.jpeg et ouverture de la valise
+            // Passage à suit2.jpeg
             suitImage.style.opacity = '0';
             setTimeout(() => {
                 suitImage.src = 'images/suit2.jpeg';
                 suitText.textContent = 'now open the suitcase';
                 suitImage.style.opacity = '1';
                 currentSuitImage = 2;
-                
-                // Ouvrir la valise immédiatement après l'apparition de suit2
-                setTimeout(() => {
-                    openSuitcase();
-                }, 1000);
             }, 500);
         } else if (currentSuitImage === 2) {
-            // Passage à suit3.jpeg
+            // Ouvrir la valise quand on clique sur suit2.jpeg
             suitImage.style.opacity = '0';
             setTimeout(() => {
                 suitImage.src = 'images/suit3.jpeg';
                 suitText.textContent = 'scroll down some more';
                 suitImage.style.opacity = '1';
                 currentSuitImage = 3;
+                openSuitcase();
             }, 500);
         }
     });
@@ -1113,31 +1205,38 @@ function initMusicLogic() {
             'cats.jpeg', 
             'heartshoes.jpeg',
             'j.jpeg',
-            'light.jpeg',
             'luck.jpeg',
             'psiloveyou.jpeg',
             'starcharm.jpeg',
-            'sᴀɴᴊɪ』.jpeg',
-            'télécharger (41).jpeg',
-            'télécharger (45).jpeg',
-            'Japanese noodle ramen bowl.jpeg',
+            'charm2.jpeg',
+            'onepiece.jpeg',
+            'onepiece2.jpeg',
+            'noodles.jpeg',
             'basketball.jpeg',
             'celtics.jpeg',
             'lol.jpeg',
             'minecraft.jpeg',
             'rose.jpeg',
+            'kiss.jpeg',
+            'bee.jpeg',
             'sushi.jpeg',
-            'weliveintime.jpeg'
+            'weliveintime.jpeg',
+            'boupking.jpeg',
+            'cards.jpeg',
+            'c.jpeg',
+            'camp1.jpeg',
+            'camp2.jpeg',
+            'camp3.jpeg'
         ];
         
         // Créer un conteneur pour les images de la valise
         const suitcaseContainer = document.createElement('div');
         suitcaseContainer.className = 'suitcase-container';
-        suitcaseContainer.style.position = 'fixed';
-        suitcaseContainer.style.top = '0';
+        suitcaseContainer.style.position = 'absolute';
+        suitcaseContainer.style.top = travelSection.offsetTop + 'px';
         suitcaseContainer.style.left = '0';
         suitcaseContainer.style.width = '100%';
-        suitcaseContainer.style.height = '100%';
+        suitcaseContainer.style.height = '2000px'; // Hauteur suffisante pour contenir toutes les images
         suitcaseContainer.style.pointerEvents = 'none';
         suitcaseContainer.style.zIndex = '1000';
         
@@ -1156,15 +1255,15 @@ function initMusicLogic() {
             img.style.transition = 'transform 0.2s ease';
             img.style.zIndex = '1001';
             
-            // Position aléatoire près du centre de l'écran
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
+            // Position aléatoire près du centre de l'écran (relatif à la section voyage)
+            const sectionCenterX = window.innerWidth / 2;
+            const sectionCenterY = 400; // Centre relatif à la section voyage
             const spreadRadius = 200; // Rayon de dispersion autour du centre
             
             const angle = Math.random() * Math.PI * 2;
             const distance = Math.random() * spreadRadius;
-            const randomX = centerX + Math.cos(angle) * distance - 50; // -50 pour centrer l'image
-            const randomY = centerY + Math.sin(angle) * distance - 50; // -50 pour centrer l'image
+            const randomX = sectionCenterX + Math.cos(angle) * distance - 50; // -50 pour centrer l'image
+            const randomY = sectionCenterY + Math.sin(angle) * distance - 50; // -50 pour centrer l'image
             
             img.style.left = randomX + 'px';
             img.style.top = randomY + 'px';
@@ -1283,7 +1382,8 @@ function initMusicLogic() {
         const scrollPosition = window.scrollY + window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
         
-        if (scrollPosition >= documentHeight * 0.8 && !travelSectionShown) {
+        // Vérifier que la section musique est visible avant d'afficher la section voyage
+        if (musicSectionShown && scrollPosition >= documentHeight * 0.6 && !travelSectionShown) {
             travelSection.classList.add('visible');
             travelSectionShown = true;
         }
@@ -1295,8 +1395,62 @@ function initMusicLogic() {
     zodiacSection.innerHTML = `
         <div class="zodiac-container">
             <img id="cancer-image" class="zodiac-image" src="images/cancer.jpeg" alt="Cancer">
-            <img id="dancing-image" class="zodiac-image" src="images/dancing.jpeg" alt="Dancing">
+            <img id="dancing-image" class="zodiac-image" src="images/vinyl3.jpeg" alt="Dancing">
             <img id="scorpio-image" class="zodiac-image" src="images/scorpio.jpeg" alt="Scorpio">
+        </div>
+        <div class="poetic-text">
+            <p>polish my feelings with laughs</p>
+            <p>you bring life to my crafts like answers on a telegraph</p>
+            <p>i could fall for every version of you.</p>
+            <p>sew back the tapestry of my heart you're all a girl could ever want.</p>
+            <br>
+            <p>breaking my tendencies</p>
+            <p>your arms all over me</p>
+            <p>it's like telepathy.</p>
+            <p>you decode my heart</p>
+            <p>like i'm an open door</p>
+            <p>i'm in your shadow</p>
+            <p>yet you enlighten me,</p>
+            <p>sweet land where all my desires drink wide</p>
+            <p>just stay with me for a while</p>
+            <p>i'd love for you to call me "mine".</p>
+            <br>
+            <p>you light my fire</p>
+            <p>you're all i desire</p>
+            <p>both our hearts beat faster</p>
+            <p>a speed even light can't beat.</p>
+            <p>trust one another and i'm yours forever</p>
+            <p>i fall, you catch me, i'm fine.</p>
+            <p>feathers and clouds, glitter, cried mascara</p>
+            <p>we're on the phone, it's like you're right there</p>
+            <p>hugging me while i break down on the bathroom floor</p>
+            <p>suddenly i don't feel so sore.</p>
+            <br>
+            <p>i'm in love</p>
+            <p>i'm. in. love.</p>
+            <p>with you.</p>
+            <p>you made me fall in love with myself too.</p>
+            <p>whenever you're near, all my ghosts disappear</p>
+            <p>every memory's like a cherished polaroid.</p>
+            <p>our jokes are unforgettable.</p>
+            <br>
+            <p>glass</p>
+            <p>on the floor, it's painful but painted</p>
+            <p>with matches, all burnt and thrown away.</p>
+            <p>you taught me not to let the pain take over.</p>
+            <p>wish i kept dreaming of your warmth every night</p>
+            <p>you're precious like the moon but so full of sunlight</p>
+            <p>i think of you and every ink tear evaporates.</p>
+            <br>
+            <p>your skin is like nothing i've ever touched before</p>
+            <p>it swallows me deep and i always want more</p>
+            <p>only three words and i wake another day</p>
+            <p>you're by my side, always.</p>
+            <br>
+            <p>snow on my face while i feel your embrace</p>
+            <p>you're all i ever needed.</p>
+            <p>and i can't wait to grow up with you and keep singing happy birthday too</p>
+            <p><3</p>
         </div>
     `;
     
@@ -1308,7 +1462,8 @@ function initMusicLogic() {
         const scrollPosition = window.scrollY + window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
         
-        if (scrollPosition >= documentHeight * 0.95 && !zodiacSectionShown) {
+        // Vérifier que la section voyage est visible avant d'afficher la section zodiaque
+        if (travelSectionShown && scrollPosition >= documentHeight * 0.85 && !zodiacSectionShown) {
             zodiacSection.classList.add('visible');
             zodiacSectionShown = true;
         }
