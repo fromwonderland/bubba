@@ -384,6 +384,72 @@ document.addEventListener('DOMContentLoaded', function() {
                         border-color: #ff85a1;
                     }
                     
+                    .simple-player {
+                        background: rgba(255, 255, 255, 0.05);
+                        border-radius: 15px;
+                        padding: 20px;
+                        min-width: 300px;
+                    }
+                    
+                    .current-song-info {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 15px;
+                        color: white;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                    }
+                    
+                    .current-song-info span:first-child {
+                        flex: 1;
+                        text-align: center;
+                        font-size: 1.1rem;
+                    }
+                    
+                    .song-counter {
+                        color: #ff85a1;
+                        font-weight: bold;
+                        font-size: 1rem;
+                    }
+                    
+                    .player-controls {
+                        display: flex;
+                        justify-content: center;
+                        gap: 15px;
+                        margin-bottom: 15px;
+                    }
+                    
+                    .progress-container {
+                        margin-top: 10px;
+                    }
+                    
+                    .progress-bar {
+                        width: 100%;
+                        height: 4px;
+                        background: rgba(255, 255, 255, 0.2);
+                        border-radius: 2px;
+                        overflow: hidden;
+                        cursor: pointer;
+                    }
+                    
+                    .progress {
+                        height: 100%;
+                        background: linear-gradient(90deg, #ff85a1, #ff6b9d);
+                        width: 0%;
+                        transition: width 0.1s linear;
+                    }
+                    
+                    .time-display {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 8px;
+                        font-size: 0.8rem;
+                        color: rgba(255, 255, 255, 0.7);
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                    }
+                    
                     .music-controls {
                         display: flex;
                         justify-content: center;
@@ -857,19 +923,25 @@ function initMusicLogic() {
             <div class="vinyl-player">
                 <img id="spinning-vinyl" class="vinyl-player" src="images/vinyl2.jpeg" alt="Spinning Vinyl">
             </div>
-            <div class="playlist-container">
-                <h2 class="playlist-title">
-                    <span>☆ anniversary playlist ☆</span>
-                    <span class="song-counter" id="song-counter">1/22</span>
-                </h2>
-                <ul class="playlist" id="playlist">
-                    <!-- Playlist sera remplie dynamiquement -->
-                </ul>
-                <div class="music-controls">
-                    <button class="control-btn" id="prev-btn">​⏪​</button>
-                    <button class="control-btn" id="play-pause-btn">​⏸️</button>
-                    <button class="control-btn" id="next-btn">​⏩</button>
+            <div class="simple-player">
+                <div class="current-song-info">
+                    <span id="current-song-display">Sélectionnez une chanson</span>
+                    <span class="song-counter" id="song-counter">1/24</span>
+                </div>
+                <div class="player-controls">
+                    <button class="control-btn" id="prev-btn">⏪</button>
+                    <button class="control-btn" id="play-pause-btn">▶️</button>
+                    <button class="control-btn" id="next-btn">⏩</button>
                     <button class="control-btn" id="loop-btn">🔁</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    <div class="time-display">
+                        <span id="current-time">0:00</span>
+                        <span id="total-time">0:00</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -881,48 +953,35 @@ function initMusicLogic() {
     let currentSongIndex = 0;
     let isPlaying = false;
     let isLooping = false;
-    let clickCount = 0;
-    let lastClickTime = 0;
     let currentAudio = null;
     
     // Playlist statique pour l'instant
     const playlist = [
         { title: 'At Last', artist: 'Etta James', file: 'At Last.mp3' },
-        { title: 'Best Friend', artist: 'Sofi Tukker', file: 'Best Friend.mp3' },
+        { title: 'Best Friend', artist: 'Conan Gray', file: 'Best Friend.mp3' },
         { title: 'Burning Love', artist: 'Elvis Presley', file: 'Burning Love.mp3' },
         { title: 'Can\'t Take My Eyes off You', artist: 'Frankie Valli', file: 'Can\'t Take My Eyes off You.mp3' },
         { title: 'Come On Eileen', artist: 'Dexys Midnight Runners', file: 'Come On Eileen.mp3' },
         { title: 'Cool Cat', artist: 'Queen', file: 'Cool Cat.mp3' },
         { title: 'Everywhere', artist: 'Fleetwood Mac', file: 'Everywhere - Fleetwood Mac.mp3' },
-        { title: 'Going Gets Tough', artist: 'Nina Simone', file: 'Going Gets Tough.mp3' },
+        { title: 'Going Gets Tough', artist: 'The Growlers', file: 'Going Gets Tough.mp3' },
         { title: 'Here Comes The Sun', artist: 'The Beatles', file: 'Here Comes The Sun.mp3' },
         { title: 'Hooked On A Feeling', artist: 'Blue Swede', file: 'Hooked On A Feeling.mp3' },
         { title: 'How Deep Is Your Love', artist: 'Bee Gees', file: 'How Deep Is Your Love.mp3' },
         { title: 'Say You Love Me', artist: 'Fleetwood Mac', file: 'Say You Love Me - Fleetwood Mac.mp3' },
         { title: 'I Want To Hold Your Hand', artist: 'The Beatles', file: 'I Want To Hold Your Hand.mp3' },
         { title: 'Spooky', artist: 'Dusty Springfield', file: 'Spooky.mp3' },
-        { title: 'It\'s Not For Me To Say', artist: 'Johnny Mathis', file: 'It\'s Not For Me To Say.mp3' },
+        { title: 'It\'s Not For Me To Say', artist: 'Connie Francis', file: 'It\'s Not For Me To Say.mp3' },
         { title: 'Lay All Your Love On Me', artist: 'ABBA', file: 'Lay All Your Love On Me.mp3' },
         { title: 'Our House', artist: 'Madness', file: 'Our House.mp3' },
         { title: 'Put Your Hand On My Shoulder', artist: 'Paul Anka', file: 'Put Your Hand On My Shoulder.mp3' },
         { title: 'Raindrops Keep Fallin\' On My Head', artist: 'B.J. Thomas', file: 'Raindrops Keep Fallin\' On My Head.mp3' },
         { title: 'Tea for Two', artist: 'Doris Day', file: 'Tea for Two.mp3' },
-        { title: 'Valentine', artist: 'Etta James', file: 'Valentine.mp3' },
+        { title: 'Valentine', artist: 'Laufey', file: 'Valentine.mp3' },
         { title: 'Wild Horses', artist: 'The Rolling Stones', file: 'Wild Horses.mp3' },
         { title: 'You Make My Dreams (Come True)', artist: 'Hall & Oates', file: 'You Make My Dreams (Come True).mp3' },
         { title: 'Yours', artist: 'Ella Fitzgerald', file: 'Yours.mp3' }
     ];
-    
-    // Remplir la playlist
-    const playlistElement = document.getElementById('playlist');
-    playlist.forEach((song, index) => {
-        const li = document.createElement('li');
-        li.className = 'playlist-item';
-        li.textContent = `${song.title} - ${song.artist}`;
-        li.dataset.index = index;
-        if (index === 0) li.classList.add('active');
-        playlistElement.appendChild(li);
-    });
     
     // Éléments DOM
     const vinylImage = document.getElementById('vinyl-image');
@@ -935,10 +994,39 @@ function initMusicLogic() {
     const nextBtn = document.getElementById('next-btn');
     const loopBtn = document.getElementById('loop-btn');
     const songCounter = document.getElementById('song-counter');
+    const currentSongDisplay = document.getElementById('current-song-display');
+    const progressBar = document.getElementById('progress-bar');
+    const progress = document.getElementById('progress');
+    const currentTimeEl = document.getElementById('current-time');
+    const totalTimeEl = document.getElementById('total-time');
     
     // Fonction pour mettre à jour le compteur de chansons
     function updateSongCounter() {
         songCounter.textContent = `${currentSongIndex + 1}/24`;
+    }
+    
+    // Mettre à jour l'affichage de la chanson actuelle
+    function updateCurrentSongDisplay() {
+        const song = playlist[currentSongIndex];
+        currentSongDisplay.textContent = `${song.title} - ${song.artist}`;
+        updateSongCounter();
+    }
+    
+    // Mettre à jour la barre de progression
+    function updateProgress() {
+        if (currentAudio && currentAudio.duration) {
+            const percent = (currentAudio.currentTime / currentAudio.duration) * 100;
+            progress.style.width = percent + '%';
+            currentTimeEl.textContent = formatTime(currentAudio.currentTime);
+            totalTimeEl.textContent = formatTime(currentAudio.duration);
+        }
+    }
+    
+    // Formater le temps
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes}:${secs.toString().padStart(2, '0')}`;
     }
     
     // Initialiser le compteur
@@ -959,85 +1047,73 @@ function initMusicLogic() {
         }, 800);
     });
     
-    // Gestion du clic sur les chansons de la playlist
-    playlistElement.addEventListener('click', (e) => {
-        if (e.target.classList.contains('playlist-item')) {
-            const clickedIndex = parseInt(e.target.dataset.index);
-            
-            if (clickedIndex === currentSongIndex) {
-                // Clic sur la chanson déjà sélectionnée
-                if (isPlaying) {
-                    pauseSong();
-                } else {
-                    playSong();
-                }
-                // Ne rien faire d'autre - pas de rechargement
-                return;
-            }
-            
-            // Chanson différente - la charger et jouer
-            currentSongIndex = clickedIndex;
-            updateActiveSong();
-            loadSong(currentSongIndex);
-            playSong();
+    // Barre de progression cliquable
+    progressBar.addEventListener('click', (e) => {
+        if (currentAudio && currentAudio.duration) {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            currentAudio.currentTime = percent * currentAudio.duration;
         }
     });
+    
+    // Initialiser l'affichage
+    updateCurrentSongDisplay();
     
     // Fonctions de contrôle audio
     function loadSong(index) {
         if (currentAudio) {
             currentAudio.pause();
-            currentAudio.src = ''; // Nettoyer l'URL
-            currentAudio.load(); // Forcer le déchargement
+            currentAudio.src = '';
+            currentAudio.load();
         }
-        
+
         const song = playlist[index];
         currentAudio = new Audio();
         
-        // Configuration de l'audio
+        // Configuration
         currentAudio.preload = 'auto';
-        currentAudio.crossOrigin = 'anonymous';
-        
-        // Gestion des erreurs de chargement
+        currentAudio.volume = 0.7; // Volume par défaut
+
+        // Événements d'erreur
         currentAudio.addEventListener('error', (e) => {
             console.error('Erreur de chargement audio:', e);
-            console.error('Fichier:', `playlist/${song.file}`);
-            // Essayer avec un chemin absolu si le relatif ne fonctionne pas
-            currentAudio.src = `./playlist/${song.file}`;
+            console.error('Fichier:', song.file);
+            // Pas de fallback automatique pour éviter les boucles infinies
         });
-        
-        // Charger le fichier audio
-        currentAudio.src = `playlist/${song.file}`;
-        currentAudio.load(); // Forcer le chargement
-        
+
+        // Événements de succès
+        currentAudio.addEventListener('loadeddata', () => {
+            console.log('Audio chargé avec succès:', song.title);
+        });
+
+        currentAudio.addEventListener('canplay', () => {
+            console.log('Audio prêt à jouer:', song.title);
+        });
+
+        // Événement de fin
         currentAudio.addEventListener('ended', () => {
             if (isLooping) {
-                // Rejouer la même chanson
                 currentAudio.currentTime = 0;
                 currentAudio.play().catch(e => console.error('Erreur loop:', e));
             } else {
                 // Passer à la chanson suivante
                 currentSongIndex = (currentSongIndex + 1) % playlist.length;
-                updateActiveSong();
+                updateCurrentSongDisplay();
                 loadSong(currentSongIndex);
                 playSong();
             }
         });
         
-        currentAudio.addEventListener('loadeddata', () => {
-            console.log('Audio chargé avec succès:', song.title);
-        });
-        
-        currentAudio.addEventListener('canplay', () => {
-            console.log('Audio prêt à jouer:', song.title);
-        });
+        // Événement de progression
+        currentAudio.addEventListener('timeupdate', updateProgress);
+
+        // Charger le fichier
+        currentAudio.src = `playlist/${song.file}`;
+        currentAudio.load();
     }
     
     function updateActiveSong() {
-        document.querySelectorAll('.playlist-item').forEach((item, index) => {
-            item.classList.toggle('active', index === currentSongIndex);
-        });
-        updateSongCounter();
+        updateCurrentSongDisplay();
     }
     
     function playSong() {
@@ -1049,18 +1125,16 @@ function initMusicLogic() {
         playPauseBtn.textContent = '⏸️';
         spinningVinyl.classList.add('spinning');
         
-        // Attendre que l'audio soit prêt avant de jouer
+        // Attendre que l'audio soit prêt
         const playPromise = currentAudio.play();
-        
         if (playPromise !== undefined) {
             playPromise.then(() => {
                 console.log('Lecture démarrée:', playlist[currentSongIndex].title);
             }).catch(error => {
                 console.error('Erreur de lecture:', error);
-                // Réessayer après un délai
-                setTimeout(() => {
-                    currentAudio.play().catch(e => console.error('Second tentative:', e));
-                }, 500);
+                isPlaying = false;
+                playPauseBtn.textContent = '▶️';
+                spinningVinyl.classList.remove('spinning');
             });
         }
     }
@@ -1077,61 +1151,37 @@ function initMusicLogic() {
     
     // Gestion du bouton play/pause
     playPauseBtn.addEventListener('click', () => {
-        const currentTime = Date.now();
-        if (currentTime - lastClickTime < 300) {
-            clickCount++;
+        if (isPlaying) {
+            pauseSong();
         } else {
-            clickCount = 1;
-        }
-        lastClickTime = currentTime;
-        
-        if (clickCount === 1) {
-            if (isPlaying) {
-                pauseSong();
-            } else {
-                playSong();
-            }
-        } else if (clickCount === 2) {
-            // Double clic -> reprise depuis le début
-            currentSongIndex = 0;
-            updateActiveSong();
             playSong();
-            clickCount = 0;
         }
-        
-        setTimeout(() => {
-            clickCount = 0;
-        }, 400);
     });
     
     // Gestion du bouton précédent
     prevBtn.addEventListener('click', () => {
-        const currentTime = Date.now();
-        if (currentTime - lastClickTime < 300) {
-            clickCount++;
-        } else {
-            clickCount = 1;
+        if (isPlaying) {
+            pauseSong();
         }
-        lastClickTime = currentTime;
-        
-        if (clickCount === 2) {
-            // Double clic -> chanson précédente
-            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
-            updateActiveSong();
+        currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+        updateCurrentSongDisplay();
+        loadSong(currentSongIndex);
+        if (isPlaying) {
             playSong();
-            clickCount = 0;
         }
-        
-        setTimeout(() => {
-            clickCount = 0;
-        }, 400);
     });
     
     // Gestion du bouton suivant
     nextBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            pauseSong();
+        }
         currentSongIndex = (currentSongIndex + 1) % playlist.length;
-        updateActiveSong();
-        playSong();
+        updateCurrentSongDisplay();
+        loadSong(currentSongIndex);
+        if (isPlaying) {
+            playSong();
+        }
     });
     
     // Gestion du bouton loop
@@ -1141,24 +1191,39 @@ function initMusicLogic() {
         loopBtn.style.borderColor = isLooping ? '#ff85a1' : 'rgba(255,255,255,0.3)';
     });
     
-    // Fonctions de contrôle
-    function updateActiveSong() {
-        document.querySelectorAll('.playlist-item').forEach((item, index) => {
-            item.classList.toggle('active', index === currentSongIndex);
-        });
-        updateSongCounter();
-    }
-    
+    // Fonctions de contrôle audio
     function playSong() {
+        if (!currentAudio || currentAudio.src !== `playlist/${playlist[currentSongIndex].file}`) {
+            loadSong(currentSongIndex);
+        }
+        
         isPlaying = true;
         playPauseBtn.textContent = '⏸️';
         spinningVinyl.classList.add('spinning');
+        
+        // Attendre que l'audio soit prêt
+        const playPromise = currentAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log('Lecture démarrée:', playlist[currentSongIndex].title);
+            }).catch(error => {
+                console.error('Erreur de lecture:', error);
+                // En cas d'erreur, réinitialiser l'état
+                isPlaying = false;
+                playPauseBtn.textContent = '▶️';
+                spinningVinyl.classList.remove('spinning');
+            });
+        }
     }
     
     function pauseSong() {
         isPlaying = false;
-        playPauseBtn.textContent = '▶️​';
+        playPauseBtn.textContent = '▶️';
         spinningVinyl.classList.remove('spinning');
+        
+        if (currentAudio) {
+            currentAudio.pause();
+        }
     }
     
     // Gestion du scroll pour afficher la section musique
@@ -1525,10 +1590,12 @@ function initFireworksEvents() {
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             // Page cachée - arrêter les feux d'artifice
-            stopFireworks();
+            if (typeof stopFireworks === 'function') {
+                stopFireworks();
+            }
         } else {
             // Page visible - reprendre les feux d'artifice s'ils étaient actifs
-            if (fireworksStarted) {
+            if (fireworksStarted && typeof startFireworks === 'function') {
                 startFireworks();
             }
         }
@@ -1536,18 +1603,22 @@ function initFireworksEvents() {
     
     window.addEventListener('blur', () => {
         // Fenêtre perdue - arrêter les feux d'artifice
-        if (fireworksStarted) {
+        if (fireworksStarted && typeof stopFireworks === 'function') {
             stopFireworks();
         }
     });
     
     window.addEventListener('focus', () => {
         // Fenêtre récupérée - reprendre les feux d'artifice s'ils étaient actifs
-        if (fireworksStarted) {
+        if (fireworksStarted && typeof startFireworks === 'function') {
             startFireworks();
         }
     });
 }
 
-// Appeler l'initialisation
-initFireworksEvents();
+// Appeler l'initialisation uniquement quand les fonctions sont définies
+setTimeout(() => {
+    if (typeof stopFireworks === 'function' && typeof startFireworks === 'function') {
+        initFireworksEvents();
+    }
+}, 100);
