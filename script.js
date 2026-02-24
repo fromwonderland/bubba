@@ -589,6 +589,90 @@ document.addEventListener('DOMContentLoaded', function() {
                             transform: translateY(0);
                         }
                     }
+                    
+                    /* Media queries pour les petits écrans */
+                    @media (max-width: 768px) {
+                        .cake-container {
+                            width: 180px;
+                            height: 150px;
+                        }
+                        
+                        .vinyl-image {
+                            max-width: 120px;
+                        }
+                        
+                        .playlist-container {
+                            max-width: 300px;
+                        }
+                        
+                        .playlist-title {
+                            font-size: 1.2rem;
+                            flex-direction: column;
+                            gap: 5px;
+                        }
+                        
+                        .song-counter {
+                            font-size: 1rem;
+                        }
+                        
+                        .playlist {
+                            max-height: 150px;
+                        }
+                        
+                        .zodiac-image {
+                            max-width: 100px;
+                        }
+                        
+                        .poetic-text {
+                            max-width: 90%;
+                            font-size: 0.9rem;
+                            padding: 15px;
+                        }
+                        
+                        .suit-image {
+                            max-width: 200px;
+                        }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .cake-container {
+                            width: 150px;
+                            height: 120px;
+                        }
+                        
+                        .vinyl-image {
+                            max-width: 100px;
+                        }
+                        
+                        .playlist-container {
+                            max-width: 250px;
+                        }
+                        
+                        .playlist-title {
+                            font-size: 1rem;
+                        }
+                        
+                        .song-counter {
+                            font-size: 0.9rem;
+                        }
+                        
+                        .playlist {
+                            max-height: 120px;
+                        }
+                        
+                        .zodiac-image {
+                            max-width: 80px;
+                        }
+                        
+                        .poetic-text {
+                            font-size: 0.8rem;
+                            padding: 10px;
+                        }
+                        
+                        .suit-image {
+                            max-width: 150px;
+                        }
+                    }
                 `;
                 document.head.appendChild(cakeStyles);
                 
@@ -1294,9 +1378,73 @@ function initMusicLogic() {
             element.style.top = pos.y + 'px';
         }
         
-        element.addEventListener('mousedown', dragStart);
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('mouseup', dragEnd);
+        // Détecter si c'est un appareil tactile
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        if (isTouchDevice) {
+            // Événements tactiles pour mobile
+            element.addEventListener('touchstart', touchStart, { passive: false });
+            document.addEventListener('touchmove', touchMove, { passive: false });
+            document.addEventListener('touchend', touchEnd);
+        } else {
+            // Événements souris pour desktop
+            element.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', dragEnd);
+        }
+        
+        function touchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            
+            // Position initiale de l'élément
+            initialLeft = parseInt(element.style.left) || 0;
+            initialTop = parseInt(element.style.top) || 0;
+            
+            if (e.target === element) {
+                isDragging = true;
+                element.style.zIndex = '1002';
+                element.style.transform = 'scale(1.2)';
+                element.style.boxShadow = '0 8px 25px rgba(0,0,0,0.4)';
+                element.style.cursor = 'grabbing';
+            }
+        }
+        
+        function touchMove(e) {
+            if (isDragging) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                
+                // Calculer la différence de position
+                const deltaX = touch.clientX - startX;
+                const deltaY = touch.clientY - startY;
+                
+                // Appliquer la différence à la position initiale
+                const newLeft = initialLeft + deltaX;
+                const newTop = initialTop + deltaY;
+                
+                element.style.left = newLeft + 'px';
+                element.style.top = newTop + 'px';
+            }
+        }
+        
+        function touchEnd(e) {
+            if (isDragging) {
+                isDragging = false;
+                element.style.zIndex = '1001';
+                element.style.transform = 'scale(1)';
+                element.style.boxShadow = '0 3px 10px rgba(0,0,0,0.3)';
+                element.style.cursor = 'move';
+                
+                // Sauvegarder la position finale
+                const finalLeft = parseInt(element.style.left) || 0;
+                const finalTop = parseInt(element.style.top) || 0;
+                const position = { x: finalLeft, y: finalTop };
+                localStorage.setItem(element.src, JSON.stringify(position));
+            }
+        }
         
         function dragStart(e) {
             // Position de la souris au début du drag
