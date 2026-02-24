@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (password.toLowerCase() === 'luckycharm') {
             // Mot de passe correct - faire disparaître le contenu
             imageContainer.style.transition = 'opacity 1s ease';
-            imageContainer.style.opacity = '0';
             
             setTimeout(() => {
                 // Remplacer le contenu par le gâteau d'anniversaire
@@ -270,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         justify-content: center;
                         opacity: 0;
                         transition: opacity 1s ease;
+                        padding: 10px 0;
                     }
                     
                     .music-section.visible {
@@ -458,6 +458,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         justify-content: center;
                         opacity: 0;
                         transition: opacity 1s ease;
+                        padding: 10px 0;
                     }
                     
                     .travel-section.visible {
@@ -502,6 +503,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         justify-content: center;
                         opacity: 0;
                         transition: opacity 1s ease;
+                        padding: 10px 0;
                     }
                     
                     .zodiac-section.visible {
@@ -911,7 +913,9 @@ function initMusicLogic() {
         { title: 'Here Comes The Sun', artist: 'The Beatles', file: 'Here Comes The Sun.mp3' },
         { title: 'Hooked On A Feeling', artist: 'Blue Swede', file: 'Hooked On A Feeling.mp3' },
         { title: 'How Deep Is Your Love', artist: 'Bee Gees', file: 'How Deep Is Your Love.mp3' },
+        { title: 'Say you love me', artist: 'Fleetwood Mac', file: 'Say You Love Me.mp3' },
         { title: 'I Want To Hold Your Hand', artist: 'The Beatles', file: 'I Want To Hold Your Hand.mp3' },
+        { title: 'Spooky', artist: 'Dusty Springfield', file: 'Spooky.mp3' },
         { title: 'It\'s Not For Me To Say', artist: 'Johnny Mathis', file: 'It\'s Not For Me To Say.mp3' },
         { title: 'Lay All Your Love On Me', artist: 'ABBA', file: 'Lay All Your Love On Me.mp3' },
         { title: 'Our House', artist: 'Madness', file: 'Our House.mp3' },
@@ -949,7 +953,7 @@ function initMusicLogic() {
     
     // Fonction pour mettre à jour le compteur de chansons
     function updateSongCounter() {
-        songCounter.textContent = `${currentSongIndex + 1}/22`;
+        songCounter.textContent = `${currentSongIndex + 1}/24`;
     }
     
     // Initialiser le compteur
@@ -1217,7 +1221,6 @@ function initMusicLogic() {
             'lol.jpeg',
             'minecraft.jpeg',
             'rose.jpeg',
-            'kiss.jpeg',
             'bee.jpeg',
             'sushi.jpeg',
             'weliveintime.jpeg',
