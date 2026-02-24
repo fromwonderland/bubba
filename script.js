@@ -578,6 +578,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         justify-content: center;
                         gap: 20px;
                         flex-wrap: wrap;
+                        margin-bottom: 60px; /* Augmenté l'espacement avant le poème */
                     }
                     
                     .zodiac-image {
@@ -636,6 +637,79 @@ document.addEventListener('DOMContentLoaded', function() {
                     .poetic-text p:nth-child(38) { animation-delay: 7.6s; }
                     .poetic-text p:nth-child(39) { animation-delay: 7.8s; }
                     .poetic-text p:nth-child(40) { animation-delay: 8.0s; }
+                    
+                    .album-container {
+                        margin-top: 60px;
+                        text-align: center;
+                        padding: 20px;
+                    }
+                    
+                    .album-title {
+                        color: white;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                        font-size: 1.8rem;
+                        margin-bottom: 30px;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                    }
+                    
+                    .album-gallery {
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        gap: 15px;
+                        padding: 20px;
+                    }
+                    
+                    .album-image {
+                        width: 150px;
+                        height: 150px;
+                        object-fit: cover;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    }
+                    
+                    .album-image:hover {
+                        transform: scale(1.05);
+                        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+                    }
+                    
+                    /* Modal pour afficher les images en grand */
+                    .image-modal {
+                        display: none;
+                        position: fixed;
+                        z-index: 1000;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0,0,0,0.9);
+                        cursor: pointer;
+                    }
+                    
+                    .modal-content {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        max-width: 90%;
+                        max-height: 90%;
+                        border-radius: 10px;
+                        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                    }
+                    
+                    .modal-close {
+                        position: absolute;
+                        top: 20px;
+                        right: 40px;
+                        color: white;
+                        font-size: 40px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        z-index: 1001;
+                    }
                     
                     @keyframes fadeInText {
                         from {
@@ -918,7 +992,7 @@ function initMusicLogic() {
             <div class="simple-player">
                 <div class="current-song-info">
                     <span id="current-song-display">Sélectionnez une chanson</span>
-                    <span class="song-counter" id="song-counter">1/24</span>
+                    <span class="song-counter" id="song-counter"> 1/24</span>
                 </div>
                 <div class="player-controls">
                     <button class="control-btn" id="prev-btn">⏪</button>
@@ -994,7 +1068,7 @@ function initMusicLogic() {
     
     // Fonction pour mettre à jour le compteur de chansons
     function updateSongCounter() {
-        songCounter.textContent = `  ${currentSongIndex + 1}/24`;
+        songCounter.textContent = ` ${currentSongIndex + 1}/24`;
     }
     
     // Mettre à jour l'affichage de la chanson actuelle
@@ -1565,9 +1639,71 @@ function initMusicLogic() {
             <p>and i can't wait to grow up with you and keep singing happy birthday too</p>
             <p><3</p>
         </div>
+        <div class="album-container">
+            <h3 class="album-title">☆ our memories ☆</h3>
+            <div class="album-gallery">
+                <!-- Les images du dossier album seront ajoutées ici dynamiquement -->
+            </div>
+        </div>
     `;
     
     document.body.appendChild(zodiacSection);
+    
+    // Créer le modal pour les images
+    const modal = document.createElement('div');
+    modal.className = 'image-modal';
+    modal.innerHTML = '<span class="modal-close">&times;</span><img class="modal-content" src="" alt="">';
+    document.body.appendChild(modal);
+    
+    const modalImg = modal.querySelector('.modal-content');
+    const modalClose = modal.querySelector('.modal-close');
+    
+    // Fonction pour charger les images du dossier album
+    function loadAlbumImages() {
+        const albumGallery = document.querySelector('.album-gallery');
+        const albumImages = [
+            'album/photo1.jpg', 'album/photo2.jpg', 'album/photo3.jpg',
+            'album/photo4.jpg', 'album/photo5.jpg', 'album/photo6.jpg'
+        ]; // Exemples - à adapter avec les vrais noms de fichiers
+        
+        albumImages.forEach((src, index) => {
+            const img = document.createElement('img');
+            img.className = 'album-image';
+            img.src = src;
+            img.alt = `Photo ${index + 1}`;
+            
+            // Gestion du clic pour afficher en grand
+            img.addEventListener('click', () => {
+                modal.style.display = 'block';
+                modalImg.src = src;
+                document.body.style.overflow = 'hidden'; // Empêcher le scroll
+            });
+            
+            // Gestion des erreurs de chargement
+            img.addEventListener('error', () => {
+                console.log(`Image non trouvée: ${src}`);
+                img.style.display = 'none'; // Cacher l'image si elle n'existe pas
+            });
+            
+            albumGallery.appendChild(img);
+        });
+    }
+    
+    // Fermer le modal
+    modalClose.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Réactiver le scroll
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    // Charger les images quand la section est visible
+    loadAlbumImages();
     
     // Gestion du scroll pour afficher la section zodiaque
     let zodiacSectionShown = false;
