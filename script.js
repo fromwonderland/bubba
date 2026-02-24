@@ -1640,7 +1640,7 @@ function initMusicLogic() {
             <p><3</p>
         </div>
         <div class="album-container">
-            <h3 class="album-title">☆ our memories ☆</h3>
+            <h3 class="album-title">☆☆☆</h3>
             <div class="album-gallery">
                 <!-- Les images du dossier album seront ajoutées ici dynamiquement -->
             </div>
@@ -1664,8 +1664,8 @@ function initMusicLogic() {
         const albumImages = [
             'album/IMG_0300.JPG', 'album/IMG_0315.JPG', 'album/IMG_0358.JPG',
             'album/IMG_0367.JPG', 'album/IMG_0382.JPG', 'album/IMG_0383.JPG',
-            'album/IMG_0303.JPG', 'album/IMG_3359.JPG', 'album/parc day (9).JPG',
-            'album/parc day (14).JPG', 'album/parc day (20).JPG',
+            'album/IMG_1303.JPG', 'album/IMG_3359.JPG', 'album/parc day (9).jpeg',
+            'album/parc day (14).jpeg', 'album/parc day (20).jpeg',
         ]; // Utiliser les vrais noms de fichiers
         
         albumImages.forEach((src, index) => {
