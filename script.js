@@ -483,6 +483,44 @@ document.addEventListener('DOMContentLoaded', function() {
                         font-style: italic;
                         text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
                     }
+                    
+                    /* Styles pour la section zodiaque */
+                    .zodiac-section {
+                        min-height: 100vh;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        opacity: 0;
+                        transition: opacity 1s ease;
+                    }
+                    
+                    .zodiac-section.visible {
+                        opacity: 1;
+                    }
+                    
+                    .zodiac-container {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 20px;
+                        flex-wrap: wrap;
+                    }
+                    
+                    .zodiac-image {
+                        max-width: 150px;
+                        width: 100%;
+                        height: auto;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: transform 0.3s ease;
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                    }
+                    
+                    .zodiac-image:hover {
+                        transform: scale(1.1);
+                    }
                 `;
                 document.head.appendChild(cakeStyles);
                 
@@ -1043,13 +1081,18 @@ function initMusicLogic() {
     // Gestion du clic sur les images suit
     suitImage.addEventListener('click', () => {
         if (currentSuitImage === 1) {
-            // Passage à suit2.jpeg
+            // Passage à suit2.jpeg et ouverture de la valise
             suitImage.style.opacity = '0';
             setTimeout(() => {
                 suitImage.src = 'images/suit2.jpeg';
                 suitText.textContent = 'now open the suitcase';
                 suitImage.style.opacity = '1';
                 currentSuitImage = 2;
+                
+                // Ouvrir la valise immédiatement après l'apparition de suit2
+                setTimeout(() => {
+                    openSuitcase();
+                }, 1000);
             }, 500);
         } else if (currentSuitImage === 2) {
             // Passage à suit3.jpeg
@@ -1063,6 +1106,177 @@ function initMusicLogic() {
         }
     });
     
+    // Fonction pour ouvrir la valise
+    function openSuitcase() {
+        const suitcaseImages = [
+            'boot.jpeg',
+            'cats.jpeg', 
+            'heartshoes.jpeg',
+            'j.jpeg',
+            'light.jpeg',
+            'luck.jpeg',
+            'psiloveyou.jpeg',
+            'starcharm.jpeg',
+            'sᴀɴᴊɪ』.jpeg',
+            'télécharger (41).jpeg',
+            'télécharger (45).jpeg',
+            'Japanese noodle ramen bowl.jpeg',
+            'basketball.jpeg',
+            'celtics.jpeg',
+            'lol.jpeg',
+            'minecraft.jpeg',
+            'rose.jpeg',
+            'sushi.jpeg',
+            'weliveintime.jpeg'
+        ];
+        
+        // Créer un conteneur pour les images de la valise
+        const suitcaseContainer = document.createElement('div');
+        suitcaseContainer.className = 'suitcase-container';
+        suitcaseContainer.style.position = 'fixed';
+        suitcaseContainer.style.top = '0';
+        suitcaseContainer.style.left = '0';
+        suitcaseContainer.style.width = '100%';
+        suitcaseContainer.style.height = '100%';
+        suitcaseContainer.style.pointerEvents = 'none';
+        suitcaseContainer.style.zIndex = '1000';
+        
+        // Ajouter chaque image avec position aléatoire
+        suitcaseImages.forEach((imageName, index) => {
+            const img = document.createElement('img');
+            img.src = `suitcase/${imageName}`;
+            img.className = 'suitcase-item';
+            img.style.position = 'absolute';
+            img.style.width = '100px'; // Taille plus petite
+            img.style.height = 'auto';
+            img.style.borderRadius = '8px';
+            img.style.boxShadow = '0 3px 10px rgba(0,0,0,0.3)';
+            img.style.cursor = 'move';
+            img.style.pointerEvents = 'auto';
+            img.style.transition = 'transform 0.2s ease';
+            img.style.zIndex = '1001';
+            
+            // Position aléatoire près du centre de l'écran
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const spreadRadius = 200; // Rayon de dispersion autour du centre
+            
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * spreadRadius;
+            const randomX = centerX + Math.cos(angle) * distance - 50; // -50 pour centrer l'image
+            const randomY = centerY + Math.sin(angle) * distance - 50; // -50 pour centrer l'image
+            
+            img.style.left = randomX + 'px';
+            img.style.top = randomY + 'px';
+            
+            // Animation d'apparition
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.3) rotate(180deg)';
+            
+            suitcaseContainer.appendChild(img);
+            
+            // Animation d'apparition progressive
+            setTimeout(() => {
+                img.style.opacity = '1';
+                img.style.transform = 'scale(1) rotate(0deg)';
+            }, index * 80); // Apparition plus rapide
+            
+            // Rendre l'image déplaçable
+            makeDraggable(img);
+        });
+        
+        document.body.appendChild(suitcaseContainer);
+        
+        // Sauvegarder les positions dans localStorage
+        loadSavedPositions();
+    }
+    
+    // Fonction pour rendre un élément déplaçable
+    function makeDraggable(element) {
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let initialLeft = 0;
+        let initialTop = 0;
+        
+        // Restaurer la position sauvegardée
+        const savedPosition = localStorage.getItem(element.src);
+        if (savedPosition) {
+            const pos = JSON.parse(savedPosition);
+            element.style.left = pos.x + 'px';
+            element.style.top = pos.y + 'px';
+        }
+        
+        element.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+        
+        function dragStart(e) {
+            // Position de la souris au début du drag
+            startX = e.clientX;
+            startY = e.clientY;
+            
+            // Position initiale de l'élément
+            initialLeft = parseInt(element.style.left) || 0;
+            initialTop = parseInt(element.style.top) || 0;
+            
+            if (e.target === element) {
+                isDragging = true;
+                element.style.zIndex = '1002';
+                element.style.transform = 'scale(1.2)';
+                element.style.boxShadow = '0 8px 25px rgba(0,0,0,0.4)';
+                element.style.cursor = 'grabbing';
+                e.preventDefault(); // Empêche la sélection de texte
+            }
+        }
+        
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                
+                // Calculer la différence de position
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                // Appliquer la différence à la position initiale
+                const newLeft = initialLeft + deltaX;
+                const newTop = initialTop + deltaY;
+                
+                element.style.left = newLeft + 'px';
+                element.style.top = newTop + 'px';
+            }
+        }
+        
+        function dragEnd(e) {
+            if (isDragging) {
+                isDragging = false;
+                element.style.zIndex = '1001';
+                element.style.transform = 'scale(1)';
+                element.style.boxShadow = '0 3px 10px rgba(0,0,0,0.3)';
+                element.style.cursor = 'move';
+                
+                // Sauvegarder la position finale
+                const finalLeft = parseInt(element.style.left) || 0;
+                const finalTop = parseInt(element.style.top) || 0;
+                const position = { x: finalLeft, y: finalTop };
+                localStorage.setItem(element.src, JSON.stringify(position));
+            }
+        }
+    }
+    
+    // Fonction pour charger les positions sauvegardées
+    function loadSavedPositions() {
+        const suitcaseItems = document.querySelectorAll('.suitcase-item');
+        suitcaseItems.forEach(item => {
+            const savedPosition = localStorage.getItem(item.src);
+            if (savedPosition) {
+                const pos = JSON.parse(savedPosition);
+                item.style.left = pos.x + 'px';
+                item.style.top = pos.y + 'px';
+            }
+        });
+    }
+    
     // Gestion du scroll pour afficher la section voyage
     let travelSectionShown = false;
     window.addEventListener('scroll', () => {
@@ -1072,6 +1286,31 @@ function initMusicLogic() {
         if (scrollPosition >= documentHeight * 0.8 && !travelSectionShown) {
             travelSection.classList.add('visible');
             travelSectionShown = true;
+        }
+    });
+    
+    // Créer la section zodiaque
+    const zodiacSection = document.createElement('div');
+    zodiacSection.className = 'zodiac-section';
+    zodiacSection.innerHTML = `
+        <div class="zodiac-container">
+            <img id="cancer-image" class="zodiac-image" src="images/cancer.jpeg" alt="Cancer">
+            <img id="dancing-image" class="zodiac-image" src="images/dancing.jpeg" alt="Dancing">
+            <img id="scorpio-image" class="zodiac-image" src="images/scorpio.jpeg" alt="Scorpio">
+        </div>
+    `;
+    
+    document.body.appendChild(zodiacSection);
+    
+    // Gestion du scroll pour afficher la section zodiaque
+    let zodiacSectionShown = false;
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        if (scrollPosition >= documentHeight * 0.95 && !zodiacSectionShown) {
+            zodiacSection.classList.add('visible');
+            zodiacSectionShown = true;
         }
     });
     
