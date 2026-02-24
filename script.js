@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         transform: none;
                         transition: transform 0.3s ease;
                         filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+                        z-index: 10;
                     }
                     
                     .cake-container:hover {
@@ -276,24 +277,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         opacity: 1;
                     }
                     
-                    .vinyl-container {
-                        text-align: center;
-                        margin-bottom: 30px;
-                    }
-                    
-                    .vinyl-image {
-                        max-width: 300px;
-                        width: 100%;
-                        height: auto;
-                        border-radius: 50%;
-                        cursor: pointer;
-                        transition: transform 0.3s ease;
-                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-                    }
-                    
-                    .vinyl-image:hover {
-                        transform: scale(1.05);
-                    }
                     
                     .vinyl-image.spinning {
                         animation: spin 3s linear infinite;
@@ -614,6 +597,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 imageContainer.style.flexDirection = 'column';
                 imageContainer.style.alignItems = 'center';
                 imageContainer.style.opacity = '0';
+                imageContainer.style.position = 'relative';
+                imageContainer.style.zIndex = '10';
                 
                 setTimeout(() => {
                     imageContainer.style.transition = 'opacity 1s ease';
