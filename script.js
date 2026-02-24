@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             swanImage.style.opacity = '0';
             
             setTimeout(() => {
-                swanImage.src = 'images/swan2.jpeg';
+                swanImage.src = 'images/swan2.webp';
                 swanImage.style.opacity = '1';
                 swanText.textContent = '☆ oh there you are!';
                 isFirstImage = false;
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             swanImage.style.opacity = '0';
             
             setTimeout(() => {
-                swanImage.src = 'images/swan1.jpeg';
+                swanImage.src = 'images/swan1.webp';
                 swanImage.style.opacity = '1';
                 swanText.textContent = '☆ hello? where are you?';
                 isFirstImage = true;
@@ -982,12 +982,12 @@ function initMusicLogic() {
     musicSection.className = 'music-section';
     musicSection.innerHTML = `
         <div class="vinyl-container">
-            <img id="vinyl-image" class="vinyl-image" src="images/vinyl1.jpeg" alt="Vinyl">
+            <img id="vinyl-image" class="vinyl-image" src="images/vinyl1.webp" alt="Vinyl">
             <p class="music-question">want to listen to some music?</p>
         </div>
         <div class="player-container">
             <div class="vinyl-player">
-                <img id="spinning-vinyl" class="vinyl-player" src="images/vinyl2.jpeg" alt="Spinning Vinyl">
+                <img id="spinning-vinyl" class="vinyl-player" src="images/vinyl2.webp" alt="Spinning Vinyl">
             </div>
             <div class="simple-player">
                 <div class="current-song-info">
@@ -1326,7 +1326,7 @@ function initMusicLogic() {
     travelSection.className = 'travel-section';
     travelSection.innerHTML = `
         <div class="suit-container">
-            <img id="suit-image" class="suit-image" src="images/suit1.jpeg" alt="Suit">
+            <img id="suit-image" class="suit-image" src="images/suit1.webp" alt="Suit">
             <p class="suit-text">let's travel</p>
         </div>
     `;
@@ -1344,19 +1344,19 @@ function initMusicLogic() {
     // Gestion du clic sur les images suit
     suitImage.addEventListener('click', () => {
         if (currentSuitImage === 1) {
-            // Passage à suit2.jpeg
+            // Passage à suit2.webp
             suitImage.style.opacity = '0';
             setTimeout(() => {
-                suitImage.src = 'images/suit2.jpeg';
+                suitImage.src = 'images/suit2.webp';
                 suitText.textContent = 'now open the suitcase';
                 suitImage.style.opacity = '1';
                 currentSuitImage = 2;
             }, 500);
         } else if (currentSuitImage === 2) {
-            // Ouvrir la valise quand on clique sur suit2.jpeg
+            // Ouvrir la valise quand on clique sur suit2.webp
             suitImage.style.opacity = '0';
             setTimeout(() => {
-                suitImage.src = 'images/suit3.jpeg';
+                suitImage.src = 'images/suit3.webp';
                 suitText.textContent = 'scroll down some more';
                 suitImage.style.opacity = '1';
                 currentSuitImage = 3;
@@ -1368,31 +1368,31 @@ function initMusicLogic() {
     // Fonction pour ouvrir la valise
     function openSuitcase() {
         const suitcaseImages = [
-            'boot.jpeg',
-            'cats.jpeg', 
-            'heartshoes.jpeg',
-            'j.jpeg',
-            'luck.jpeg',
-            'psiloveyou.jpeg',
-            'starcharm.jpeg',
-            'charm2.jpeg',
-            'onepiece.jpeg',
-            'onepiece2.jpeg',
-            'noodles.jpeg',
-            'basketball.jpeg',
-            'celtics.jpeg',
-            'lol.jpeg',
-            'minecraft.jpeg',
-            'rose.jpeg',
-            'bee.jpeg',
-            'sushi.jpeg',
-            'weliveintime.jpeg',
-            'boupking.jpeg',
-            'cards.jpeg',
-            'c.jpeg',
-            'camp1.jpeg',
-            'camp2.jpeg',
-            'camp3.jpeg'
+            'boot.webp',
+            'cats.webp', 
+            'heartshoes.webp',
+            'j.webp',
+            'luck.webp',
+            'psiloveyou.webp',
+            'starcharm.webp',
+            'charm2.webp',
+            'onepiece.webp',
+            'onepiece2.webp',
+            'noodles.webp',
+            'basketball.webp',
+            'celtics.webp',
+            'lol.webp',
+            'minecraft.webp',
+            'rose.webp',
+            'bee.webp',
+            'sushi.webp',
+            'weliveintime.webp',
+            'boupking.webp',
+            'cards.webp',
+            'c.webp',
+            'camp1.webp',
+            'camp2.webp',
+            'camp3.webp'
         ];
         
         // Créer un conteneur pour les images de la valise
@@ -1581,9 +1581,9 @@ function initMusicLogic() {
     zodiacSection.className = 'zodiac-section';
     zodiacSection.innerHTML = `
         <div class="zodiac-container">
-            <img id="cancer-image" class="zodiac-image" src="images/cancer.jpeg" alt="Cancer">
-            <img id="dancing-image" class="zodiac-image" src="images/vinyl3.jpeg" alt="Dancing">
-            <img id="scorpio-image" class="zodiac-image" src="images/scorpio.jpeg" alt="Scorpio">
+            <img id="cancer-image" class="zodiac-image" src="images/cancer.webp" alt="Cancer">
+            <img id="dancing-image" class="zodiac-image" src="images/vinyl3.webp" alt="Dancing">
+            <img id="scorpio-image" class="zodiac-image" src="images/scorpio.webp" alt="Scorpio">
         </div>
         <div class="poetic-text">
             <p>polish my feelings with laughs</p>
@@ -1662,10 +1662,10 @@ function initMusicLogic() {
     function loadAlbumImages() {
         const albumGallery = document.querySelector('.album-gallery');
         const albumImages = [
-            'album/IMG_0300.JPG', 'album/IMG_0315.JPG', 'album/IMG_0358.JPG',
-            'album/IMG_0367.JPG', 'album/IMG_0382.JPG', 'album/IMG_0383.JPG',
-            'album/IMG_1303.JPG', 'album/IMG_3359.JPG', 'album/parc day (9).jpeg',
-            'album/parc day (14).jpeg', 'album/parc day (20).jpeg',
+            'album/IMG_0300.webp', 'album/IMG_0315.webp', 'album/IMG_0358.webp',
+            'album/IMG_0367.webp', 'album/IMG_0382.webp', 'album/IMG_0383.webp',
+            'album/IMG_1303.webp', 'album/IMG_3359.webp', 'album/parc day (9).webp',
+            'album/parc day (14).webp', 'album/parc day (20).webp',
         ]; // Utiliser les vrais noms de fichiers
         
         albumImages.forEach((src, index) => {
