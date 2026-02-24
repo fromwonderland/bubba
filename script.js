@@ -671,6 +671,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
                     }
                     
+                    /* Responsive pour mobile - une photo en dessous de l'autre */
+                    @media (max-width: 768px) {
+                        .album-gallery {
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 20px;
+                        }
+                        
+                        .album-image {
+                            width: 280px;
+                            height: 280px;
+                        }
+                    }
+                    
                     .album-image:hover {
                         transform: scale(1.05);
                         box-shadow: 0 6px 20px rgba(0,0,0,0.4);
