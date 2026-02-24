@@ -1662,9 +1662,11 @@ function initMusicLogic() {
     function loadAlbumImages() {
         const albumGallery = document.querySelector('.album-gallery');
         const albumImages = [
-            'album/photo1.jpg', 'album/photo2.jpg', 'album/photo3.jpg',
-            'album/photo4.jpg', 'album/photo5.jpg', 'album/photo6.jpg'
-        ]; // Exemples - à adapter avec les vrais noms de fichiers
+            'album/IMG_0300.JPG', 'album/IMG_0315.JPG', 'album/IMG_0358.JPG',
+            'album/IMG_0367.JPG', 'album/IMG_0382.JPG', 'album/IMG_0383.JPG',
+            'album/IMG_0303.JPG', 'album/IMG_3359.JPG', 'album/parc day (9).JPG',
+            'album/parc day (14).JPG', 'album/parc day (20).JPG',
+        ]; // Utiliser les vrais noms de fichiers
         
         albumImages.forEach((src, index) => {
             const img = document.createElement('img');
