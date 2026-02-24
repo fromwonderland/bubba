@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 // Remplacer le contenu par le gâteau d'anniversaire
                 imageContainer.innerHTML = `
-                    <div id="ui-text">☆☆☆ Happy 3rd anniversary to my favorite <br>person in the whole universe! I LOVE YOU ☆☆☆<br></div>
+                    <div id="ui-text">☆☆☆ Happy 3rd anniversary to my favorite <br>person in the whole universe! I LOVE YOU ☆☆☆<br><br><br></div>
                     <div class="cake-container" id="cake">
                         <div class="layer layer-strawberry"></div>
                         <div class="layer layer-chocolate"></div>
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     #ui-text {
                         color: white;
-                        margin-bottom: 20px;
+                        margin-bottom: 60px; /* Augmenté l'espacement */
                         text-align: center;
                         font-size: 1.1rem;
                         text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     
-                    .vinyl-image.spinning {
+                    .vinyl-player.spinning {
                         animation: spin 3s linear infinite;
                     }
                     
@@ -307,12 +307,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     .player-container.visible {
                         display: flex;
-                        gap: 50px;
-                        align-items: flex-start;
+                        flex-direction: column;
+                        gap: 20px;
+                        align-items: center;
                         justify-content: center;
                         width: 100%;
                         max-width: 900px;
-                        margin: 0 auto;
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .player-container.visible {
+                            gap: 15px;
+                            padding: 15px;
+                        }
+                        
+                        .simple-player {
+                            width: 100%;
+                            max-width: 350px;
+                        }
                     }
                     
                     .vinyl-player {
@@ -580,26 +592,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     .zodiac-image:hover {
                         transform: scale(1.1);
-                    }
-                    
-                    .poetic-text {
-                        max-width: 600px;
-                        margin: 40px auto 20px;
-                        text-align: center;
-                        color: white;
-                        font-family: 'Times New Roman', Times, serif;
-                        font-style: italic;
-                        font-size: 1.1rem;
-                        line-height: 1.8;
-                        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-                        padding: 20px;
-                        background: rgba(255,255,255,0.05);
-                        border-radius: 15px;
-                        backdrop-filter: blur(5px);
-                    }
-                    
-                    .poetic-text p {
-                        margin: 8px 0;
                         opacity: 0;
                         animation: fadeInText 0.8s ease forwards;
                     }
@@ -1002,7 +994,7 @@ function initMusicLogic() {
     
     // Fonction pour mettre à jour le compteur de chansons
     function updateSongCounter() {
-        songCounter.textContent = `${currentSongIndex + 1}/24`;
+        songCounter.textContent = `  ${currentSongIndex + 1}/24`;
     }
     
     // Mettre à jour l'affichage de la chanson actuelle
@@ -1160,27 +1152,33 @@ function initMusicLogic() {
     
     // Gestion du bouton précédent
     prevBtn.addEventListener('click', () => {
-        if (isPlaying) {
+        const wasPlaying = isPlaying; // Sauvegarder l'état de lecture
+        
+        if (wasPlaying) {
             pauseSong();
         }
         currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
         updateCurrentSongDisplay();
         loadSong(currentSongIndex);
-        if (isPlaying) {
-            playSong();
+        
+        if (wasPlaying) {
+            playSong(); // Relancer automatiquement si lecture en cours
         }
     });
     
     // Gestion du bouton suivant
     nextBtn.addEventListener('click', () => {
-        if (isPlaying) {
+        const wasPlaying = isPlaying; // Sauvegarder l'état de lecture
+        
+        if (wasPlaying) {
             pauseSong();
         }
         currentSongIndex = (currentSongIndex + 1) % playlist.length;
         updateCurrentSongDisplay();
         loadSong(currentSongIndex);
-        if (isPlaying) {
-            playSong();
+        
+        if (wasPlaying) {
+            playSong(); // Relancer automatiquement si lecture en cours
         }
     });
     
