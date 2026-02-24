@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.swan-image {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.swan-image:hover {
+    transform: scale(1.05);
+}
+
+.swan-text {
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-style: italic;
+    margin: 0;
+    transition: opacity 0.3s ease;
+}
+
+.password-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.password-container.show {
+    opacity: 1;
+}
+
+.password-input {
+    padding: 10px 15px;
+    border: 2px solid #ffffff;
+    border-radius: 25px;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.password-input::placeholder {
+    color: #888888;
+}
+
+.password-input:focus {
+    border-color: #cccccc;
+}
+
+.read-button {
+    padding: 10px 20px;
+    border: 2px solid #ffffff;
+    border-radius: 25px;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.read-button:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.read-button:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .swan-image {
+        max-width: 350px;
+    }
+    
+    .swan-text {
+        font-size: 1.2rem;
+    }
+}
