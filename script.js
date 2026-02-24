@@ -153,24 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         border-radius: 15px 15px 0 0;
                     }
                     
-                    .icing {
-                        position: absolute;
-                        bottom: 145px;
-                        width: 120%;
-                        height: 35px;
-                        background: 
-                            radial-gradient(ellipse at 30% 20%, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #e91e63 100%),
-                            linear-gradient(90deg, #f48fb1 0%, #f8bbd0 50%, #f48fb1 100%);
-                        border-radius: 50% 50% 45% 45% / 70% 70% 30% 30%;
-                        left: -10%;
-                        z-index: 2;
-                        box-shadow: 
-                            0 8px 25px rgba(233, 30, 99, 0.3),
-                            inset 0 3px 8px rgba(255,255,255,0.6),
-                            inset 0 -3px 8px rgba(0,0,0,0.15);
-                        border: 2px solid #c2185b;
-                    }
-                    
                     /* Glaçage dégoulinant */
                     .icing::before,
                     .icing::after {
@@ -278,6 +260,229 @@ document.addEventListener('DOMContentLoaded', function() {
                     .scroll-text.show {
                         opacity: 1;
                     }
+                    
+                    /* Styles pour la section musique */
+                    .music-section {
+                        min-height: 100vh;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        opacity: 0;
+                        transition: opacity 1s ease;
+                    }
+                    
+                    .music-section.visible {
+                        opacity: 1;
+                    }
+                    
+                    .vinyl-container {
+                        text-align: center;
+                        margin-bottom: 30px;
+                    }
+                    
+                    .vinyl-image {
+                        max-width: 300px;
+                        width: 100%;
+                        height: auto;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        transition: transform 0.3s ease;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    }
+                    
+                    .vinyl-image:hover {
+                        transform: scale(1.05);
+                    }
+                    
+                    .vinyl-image.spinning {
+                        animation: spin 3s linear infinite;
+                    }
+                    
+                    @keyframes spin {
+                        from { transform: rotate(0deg); }
+                        to { transform: rotate(360deg); }
+                    }
+                    
+                    .music-question {
+                        color: white;
+                        font-size: 1.2rem;
+                        margin-top: 20px;
+                        text-align: center;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                    }
+                    
+                    .player-container {
+                        display: none;
+                        width: 100%;
+                        max-width: 900px;
+                        padding: 20px;
+                        margin: 0 auto;
+                    }
+                    
+                    .player-container.visible {
+                        display: flex;
+                        gap: 50px;
+                        align-items: flex-start;
+                        justify-content: center;
+                        width: 100%;
+                        max-width: 900px;
+                        margin: 0 auto;
+                    }
+                    
+                    .vinyl-player {
+                        flex: 0 0 300px;
+                    }
+                    
+                    .vinyl-player img {
+                        width: 100%;
+                        max-width: 300px;
+                        border-radius: 50%;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    }
+                    
+                    .playlist-container {
+                        flex: 1;
+                        background: rgba(255,255,255,0.1);
+                        border-radius: 15px;
+                        padding: 20px;
+                        backdrop-filter: blur(10px);
+                        max-width: 400px;
+                    }
+                    
+                    .playlist-title {
+                        color: white;
+                        font-size: 1.5rem;
+                        margin-bottom: 20px;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                    }
+                    
+                    .playlist {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        max-height: 200px;
+                        overflow-y: auto;
+                    }
+                    
+                    .playlist-item {
+                        color: white;
+                        padding: 12px 15px;
+                        margin-bottom: 8px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                        font-size: 1rem;
+                        border: 1px solid transparent;
+                    }
+                    
+                    .playlist-item:hover {
+                        background: rgba(255,255,255,0.1);
+                        border-color: rgba(255,255,255,0.3);
+                    }
+                    
+                    .playlist-item.active {
+                        background: rgba(255,133,161,0.2);
+                        border-color: #ff85a1;
+                    }
+                    
+                    .music-controls {
+                        display: flex;
+                        justify-content: center;
+                        gap: 20px;
+                        margin-top: 20px;
+                        padding: 15px;
+                        background: rgba(255,255,255,0.05);
+                        border-radius: 10px;
+                    }
+                    
+                    .control-btn {
+                        background: rgba(255,255,255,0.1);
+                        border: 1px solid rgba(255,255,255,0.3);
+                        color: white;
+                        padding: 10px 15px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: normal;
+                        font-size: 0.9rem;
+                    }
+                    
+                    .control-btn:hover {
+                        background: rgba(255,255,255,0.2);
+                        border-color: rgba(255,255,255,0.5);
+                    }
+                    
+                    .control-btn:active {
+                        transform: scale(0.95);
+                    }
+                    
+                    /* Styles pour la section voyage */
+                    .scroll-again-text {
+                        color: white;
+                        margin-top: 30px;
+                        text-align: center;
+                        font-size: 1rem;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                        opacity: 0;
+                        transition: opacity 0.5s ease;
+                    }
+                    
+                    .scroll-again-text.show {
+                        opacity: 1;
+                    }
+                    
+                    .travel-section {
+                        min-height: 100vh;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        opacity: 0;
+                        transition: opacity 1s ease;
+                    }
+                    
+                    .travel-section.visible {
+                        opacity: 1;
+                    }
+                    
+                    .suit-container {
+                        text-align: center;
+                        margin-bottom: 30px;
+                    }
+                    
+                    .suit-image {
+                        max-width: 400px;
+                        width: 100%;
+                        height: auto;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: transform 0.3s ease, opacity 0.5s ease;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    }
+                    
+                    .suit-image:hover {
+                        transform: scale(1.05);
+                    }
+                    
+                    .suit-text {
+                        color: white;
+                        font-size: 1.2rem;
+                        margin-top: 20px;
+                        text-align: center;
+                        font-family: 'Times New Roman', Times, serif;
+                        font-style: italic;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                    }
                 `;
                 document.head.appendChild(cakeStyles);
                 
@@ -294,6 +499,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Initialiser la logique du gâteau
                 initCakeLogic();
+                
+                // Initialiser la logique de musique
+                initMusicLogic();
                 
                 console.log('Gâteau d\'anniversaire chargé');
             }, 1000);
@@ -453,6 +661,8 @@ function startFireworks() {
     }
 
     let particles = [];
+    let animationId = null;
+    let autoLaunchId = null;
 
     function createFirework(x, y) {
         // Couleurs pastel
@@ -470,7 +680,6 @@ function startFireworks() {
         ];
         
         const color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
-        
         const particleCount = Math.floor(Math.random() * 60) + 60;
         const speedMultiplier = Math.random() * 1.5 + 0.5;
 
@@ -480,9 +689,11 @@ function startFireworks() {
     }
 
     function animate() {
+        // Fond semi-transparent pour l'effet de traînée lumineuse
         ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        // On parcourt à l'envers pour supprimer proprement
         for (let i = particles.length - 1; i >= 0; i--) {
             const p = particles[i];
             p.update();
@@ -493,7 +704,7 @@ function startFireworks() {
             }
         }
 
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
     }
 
     function autoLaunch() {
@@ -501,9 +712,402 @@ function startFireworks() {
         const y = Math.random() * (canvas.height * 0.6); 
         createFirework(x, y);
         
-        setTimeout(autoLaunch, Math.random() * 1000 + 400);
+        autoLaunchId = setTimeout(autoLaunch, Math.random() * 1000 + 400);
     }
 
-    autoLaunch();
-    animate();
+    function stopFireworks() {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+        if (autoLaunchId) {
+            clearTimeout(autoLaunchId);
+            autoLaunchId = null;
+        }
+    }
+
+    function startFireworks() {
+        stopFireworks(); // Nettoyer avant de commencer
+        fireworksStarted = true;
+        autoLaunch();
+        animate();
+    }
+
+    startFireworks();
+}
+
+// Fonction pour initialiser la logique de musique
+function initMusicLogic() {
+    // Créer la section musique
+    const musicSection = document.createElement('div');
+    musicSection.className = 'music-section';
+    musicSection.innerHTML = `
+        <div class="vinyl-container">
+            <img id="vinyl-image" class="vinyl-image" src="images/vinyl1.jpeg" alt="Vinyl">
+            <p class="music-question">want to listen to some music?</p>
+        </div>
+        <div class="player-container">
+            <div class="vinyl-player">
+                <img id="spinning-vinyl" class="vinyl-player" src="images/vinyl2.jpeg" alt="Spinning Vinyl">
+            </div>
+            <div class="playlist-container">
+                <h2 class="playlist-title">☆ anniversary playlist ☆</h2>
+                <ul class="playlist" id="playlist">
+                    <!-- Playlist sera remplie dynamiquement -->
+                </ul>
+                <div class="music-controls">
+                    <button class="control-btn" id="prev-btn">​⏪​</button>
+                    <button class="control-btn" id="play-pause-btn">​⏸️</button>
+                    <button class="control-btn" id="next-btn">​⏩</button>
+                    <button class="control-btn" id="loop-btn">🔁</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(musicSection);
+    
+    // Variables pour la logique musique
+    let currentSongIndex = 0;
+    let isPlaying = false;
+    let isLooping = false;
+    let clickCount = 0;
+    let lastClickTime = 0;
+    let currentAudio = null;
+    
+    // Playlist statique pour l'instant
+    const playlist = [
+        { title: 'At Last', artist: 'Etta James', file: 'At Last.mp3' },
+        { title: 'Best Friend', artist: 'Sofi Tukker', file: 'Best Friend.mp3' },
+        { title: 'Burning Love', artist: 'Elvis Presley', file: 'Burning Love.mp3' },
+        { title: 'Can\'t Take My Eyes off You', artist: 'Frankie Valli', file: 'Can\'t Take My Eyes off You.mp3' },
+        { title: 'Come On Eileen', artist: 'Dexys Midnight Runners', file: 'Come On Eileen.mp3' },
+        { title: 'Cool Cat', artist: 'Queen', file: 'Cool Cat.mp3' },
+        { title: 'Everywhere', artist: 'Fleetwood Mac', file: 'Everywhere.mp3' },
+        { title: 'Going Gets Tough', artist: 'Nina Simone', file: 'Going Gets Tough.mp3' },
+        { title: 'Here Comes The Sun', artist: 'The Beatles', file: 'Here Comes The Sun.mp3' },
+        { title: 'Hooked On A Feeling', artist: 'Blue Swede', file: 'Hooked On A Feeling.mp3' },
+        { title: 'How Deep Is Your Love', artist: 'Bee Gees', file: 'How Deep Is Your Love.mp3' },
+        { title: 'I Want To Hold Your Hand', artist: 'The Beatles', file: 'I Want To Hold Your Hand.mp3' },
+        { title: 'It\'s Not For Me To Say', artist: 'Johnny Mathis', file: 'It\'s Not For Me To Say.mp3' },
+        { title: 'Lay All Your Love On Me', artist: 'ABBA', file: 'Lay All Your Love On Me.mp3' },
+        { title: 'Our House', artist: 'Madness', file: 'Our House.mp3' },
+        { title: 'Put Your Hand On My Shoulder', artist: 'Paul Anka', file: 'Put Your Hand On My Shoulder.mp3' },
+        { title: 'Raindrops Keep Fallin\' On My Head', artist: 'B.J. Thomas', file: 'Raindrops Keep Fallin\' On My Head.mp3' },
+        { title: 'Tea for Two', artist: 'Doris Day', file: 'Tea for Two.mp3' },
+        { title: 'Valentine', artist: 'Etta James', file: 'Valentine.mp3' },
+        { title: 'Wild Horses', artist: 'The Rolling Stones', file: 'Wild Horses.mp3' },
+        { title: 'You Make My Dreams (Come True)', artist: 'Hall & Oates', file: 'You Make My Dreams (Come True).mp3' },
+        { title: 'Yours', artist: 'Ella Fitzgerald', file: 'Yours.mp3' }
+    ];
+    
+    // Remplir la playlist
+    const playlistElement = document.getElementById('playlist');
+    playlist.forEach((song, index) => {
+        const li = document.createElement('li');
+        li.className = 'playlist-item';
+        li.textContent = `${song.title} - ${song.artist}`;
+        li.dataset.index = index;
+        if (index === 0) li.classList.add('active');
+        playlistElement.appendChild(li);
+    });
+    
+    // Éléments DOM
+    const vinylImage = document.getElementById('vinyl-image');
+    const vinylContainer = document.querySelector('.vinyl-container');
+    const spinningVinyl = document.getElementById('spinning-vinyl');
+    const playerContainer = document.querySelector('.player-container');
+    const musicQuestion = document.querySelector('.music-question');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const loopBtn = document.getElementById('loop-btn');
+    
+    // Gestion du clic sur le vinyle
+    vinylImage.addEventListener('click', () => {
+        vinylContainer.style.opacity = '0';
+        setTimeout(() => {
+            vinylContainer.style.display = 'none';
+            playerContainer.classList.add('visible');
+            playerContainer.style.opacity = '0';
+            setTimeout(() => {
+                playerContainer.style.opacity = '1';
+            }, 100);
+        }, 500);
+    });
+    
+    // Gestion du clic sur les chansons de la playlist
+    playlistElement.addEventListener('click', (e) => {
+        if (e.target.classList.contains('playlist-item')) {
+            const clickedIndex = parseInt(e.target.dataset.index);
+            if (clickedIndex === currentSongIndex && isPlaying) {
+                // Double clic sur la même chanson -> reprise
+                currentSongIndex = 0;
+                updateActiveSong();
+                loadSong(currentSongIndex);
+                playSong();
+            } else {
+                currentSongIndex = clickedIndex;
+                updateActiveSong();
+                loadSong(currentSongIndex);
+                playSong();
+            }
+        }
+    });
+    
+    // Fonctions de contrôle audio
+    function loadSong(index) {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.remove();
+        }
+        
+        const song = playlist[index];
+        currentAudio = new Audio(`playlist/${song.file}`);
+        currentAudio.addEventListener('ended', () => {
+            if (isLooping) {
+                // Rejouer la même chanson
+                currentAudio.currentTime = 0;
+                currentAudio.play();
+            } else {
+                // Passer à la chanson suivante
+                currentSongIndex = (currentSongIndex + 1) % playlist.length;
+                updateActiveSong();
+                playSong();
+            }
+        });
+        
+        currentAudio.addEventListener('error', (e) => {
+            console.error('Erreur de chargement audio:', e);
+        });
+    }
+    
+    function updateActiveSong() {
+        document.querySelectorAll('.playlist-item').forEach((item, index) => {
+            item.classList.toggle('active', index === currentSongIndex);
+        });
+    }
+    
+    function playSong() {
+        if (!currentAudio || currentAudio.src !== `playlist/${playlist[currentSongIndex].file}`) {
+            loadSong(currentSongIndex);
+        }
+        
+        isPlaying = true;
+        playPauseBtn.textContent = '⏸️';
+        spinningVinyl.classList.add('spinning');
+        
+        currentAudio.play().catch(error => {
+            console.error('Erreur de lecture:', error);
+        });
+    }
+    
+    function pauseSong() {
+        isPlaying = false;
+        playPauseBtn.textContent = '▶️';
+        spinningVinyl.classList.remove('spinning');
+        
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+    }
+    
+    // Gestion du bouton play/pause
+    playPauseBtn.addEventListener('click', () => {
+        const currentTime = Date.now();
+        if (currentTime - lastClickTime < 300) {
+            clickCount++;
+        } else {
+            clickCount = 1;
+        }
+        lastClickTime = currentTime;
+        
+        if (clickCount === 1) {
+            if (isPlaying) {
+                pauseSong();
+            } else {
+                playSong();
+            }
+        } else if (clickCount === 2) {
+            // Double clic -> reprise depuis le début
+            currentSongIndex = 0;
+            updateActiveSong();
+            playSong();
+            clickCount = 0;
+        }
+        
+        setTimeout(() => {
+            clickCount = 0;
+        }, 400);
+    });
+    
+    // Gestion du bouton précédent
+    prevBtn.addEventListener('click', () => {
+        const currentTime = Date.now();
+        if (currentTime - lastClickTime < 300) {
+            clickCount++;
+        } else {
+            clickCount = 1;
+        }
+        lastClickTime = currentTime;
+        
+        if (clickCount === 2) {
+            // Double clic -> chanson précédente
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            updateActiveSong();
+            playSong();
+            clickCount = 0;
+        }
+        
+        setTimeout(() => {
+            clickCount = 0;
+        }, 400);
+    });
+    
+    // Gestion du bouton suivant
+    nextBtn.addEventListener('click', () => {
+        currentSongIndex = (currentSongIndex + 1) % playlist.length;
+        updateActiveSong();
+        playSong();
+    });
+    
+    // Gestion du bouton loop
+    loopBtn.addEventListener('click', () => {
+        isLooping = !isLooping;
+        loopBtn.style.background = isLooping ? 'rgba(255,133,161,0.3)' : 'rgba(255,255,255,0.1)';
+        loopBtn.style.borderColor = isLooping ? '#ff85a1' : 'rgba(255,255,255,0.3)';
+    });
+    
+    // Fonctions de contrôle
+    function updateActiveSong() {
+        document.querySelectorAll('.playlist-item').forEach((item, index) => {
+            item.classList.toggle('active', index === currentSongIndex);
+        });
+    }
+    
+    function playSong() {
+        isPlaying = true;
+        playPauseBtn.textContent = '⏸️';
+        spinningVinyl.classList.add('spinning');
+    }
+    
+    function pauseSong() {
+        isPlaying = false;
+        playPauseBtn.textContent = '▶️​';
+        spinningVinyl.classList.remove('spinning');
+    }
+    
+    // Gestion du scroll pour afficher la section musique
+    let musicSectionShown = false;
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        if (scrollPosition >= documentHeight * 0.5 && !musicSectionShown) {
+            musicSection.classList.add('visible');
+            musicSectionShown = true;
+        }
+    });
+    
+    // Créer la phrase "scroll down again" sous la playlist
+    const scrollAgainText = document.createElement('div');
+    scrollAgainText.className = 'scroll-again-text';
+    scrollAgainText.textContent = 'scroll down again';
+    musicSection.appendChild(scrollAgainText);
+    
+    // Afficher "scroll down again" après l'apparition de la musique
+    setTimeout(() => {
+        scrollAgainText.classList.add('show');
+    }, 2000);
+    
+    // Créer la section voyage
+    const travelSection = document.createElement('div');
+    travelSection.className = 'travel-section';
+    travelSection.innerHTML = `
+        <div class="suit-container">
+            <img id="suit-image" class="suit-image" src="images/suit1.jpeg" alt="Suit">
+            <p class="suit-text">let's travel</p>
+        </div>
+    `;
+    
+    document.body.appendChild(travelSection);
+    
+    // Variables pour la logique voyage
+    let currentSuitImage = 1;
+    
+    // Éléments DOM pour la section voyage
+    const suitImage = document.getElementById('suit-image');
+    const suitContainer = document.querySelector('.suit-container');
+    const suitText = document.querySelector('.suit-text');
+    
+    // Gestion du clic sur les images suit
+    suitImage.addEventListener('click', () => {
+        if (currentSuitImage === 1) {
+            // Passage à suit2.jpeg
+            suitImage.style.opacity = '0';
+            setTimeout(() => {
+                suitImage.src = 'images/suit2.jpeg';
+                suitText.textContent = 'now open the suitcase';
+                suitImage.style.opacity = '1';
+                currentSuitImage = 2;
+            }, 500);
+        } else if (currentSuitImage === 2) {
+            // Passage à suit3.jpeg
+            suitImage.style.opacity = '0';
+            setTimeout(() => {
+                suitImage.src = 'images/suit3.jpeg';
+                suitText.textContent = 'scroll down some more';
+                suitImage.style.opacity = '1';
+                currentSuitImage = 3;
+            }, 500);
+        }
+    });
+    
+    // Gestion du scroll pour afficher la section voyage
+    let travelSectionShown = false;
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        if (scrollPosition >= documentHeight * 0.8 && !travelSectionShown) {
+            travelSection.classList.add('visible');
+            travelSectionShown = true;
+        }
+    });
+    
+    // Gestion du focus de la page pour les feux d'artifice
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            // Page cachée - arrêter les feux d'artifice
+            stopFireworks();
+        } else {
+            // Page visible - reprendre les feux d'artifice s'ils étaient actifs
+            if (fireworksStarted) {
+                startFireworks();
+            }
+        }
+    });
+    
+    window.addEventListener('blur', () => {
+        // Fenêtre perdue - arrêter les feux d'artifice
+        if (fireworksStarted) {
+            stopFireworks();
+        }
+    });
+    
+    window.addEventListener('focus', () => {
+        // Fenêtre récupérée - reprendre les feux d'artifice
+        if (fireworksStarted) {
+            startFireworks();
+        }
+    });
+    
+    // Simulation de fin de chanson pour le loop
+    setInterval(() => {
+        if (isPlaying && isLooping) {
+            // Simuler la fin de la chanson et la rejouer
+            // Dans une vraie implémentation, ceci serait déclenché par l'événement 'ended' de l'audio
+            console.log('Looping current song');
+        }
+    }, 3000); // Toutes les 3 secondes pour la simulation
 }
