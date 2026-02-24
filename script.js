@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         flex-direction: column;
                         align-items: center;
                         justify-content: center;
-                        opacity: 0;
+                        opacity: 1;
                         transition: opacity 1s ease;
                         padding: 10px 0;
                     }
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         flex-direction: column;
                         align-items: center;
                         justify-content: center;
-                        opacity: 0;
+                        opacity: 1;
                         transition: opacity 1s ease;
                         padding: 10px 0;
                     }
@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         flex-direction: column;
                         align-items: center;
                         justify-content: center;
-                        opacity: 0;
+                        opacity: 1;
                         transition: opacity 1s ease;
                         padding: 10px 0;
                     }
@@ -587,90 +587,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         to {
                             opacity: 1;
                             transform: translateY(0);
-                        }
-                    }
-                    
-                    /* Media queries pour les petits écrans */
-                    @media (max-width: 768px) {
-                        .cake-container {
-                            width: 180px;
-                            height: 150px;
-                        }
-                        
-                        .vinyl-image {
-                            max-width: 120px;
-                        }
-                        
-                        .playlist-container {
-                            max-width: 300px;
-                        }
-                        
-                        .playlist-title {
-                            font-size: 1.2rem;
-                            flex-direction: column;
-                            gap: 5px;
-                        }
-                        
-                        .song-counter {
-                            font-size: 1rem;
-                        }
-                        
-                        .playlist {
-                            max-height: 150px;
-                        }
-                        
-                        .zodiac-image {
-                            max-width: 100px;
-                        }
-                        
-                        .poetic-text {
-                            max-width: 90%;
-                            font-size: 0.9rem;
-                            padding: 15px;
-                        }
-                        
-                        .suit-image {
-                            max-width: 200px;
-                        }
-                    }
-                    
-                    @media (max-width: 480px) {
-                        .cake-container {
-                            width: 150px;
-                            height: 120px;
-                        }
-                        
-                        .vinyl-image {
-                            max-width: 100px;
-                        }
-                        
-                        .playlist-container {
-                            max-width: 250px;
-                        }
-                        
-                        .playlist-title {
-                            font-size: 1rem;
-                        }
-                        
-                        .song-counter {
-                            font-size: 0.9rem;
-                        }
-                        
-                        .playlist {
-                            max-height: 120px;
-                        }
-                        
-                        .zodiac-image {
-                            max-width: 80px;
-                        }
-                        
-                        .poetic-text {
-                            font-size: 0.8rem;
-                            padding: 10px;
-                        }
-                        
-                        .suit-image {
-                            max-width: 150px;
                         }
                     }
                 `;
@@ -977,12 +893,12 @@ function initMusicLogic() {
         { title: 'Can\'t Take My Eyes off You', artist: 'Frankie Valli', file: 'Can\'t Take My Eyes off You.mp3' },
         { title: 'Come On Eileen', artist: 'Dexys Midnight Runners', file: 'Come On Eileen.mp3' },
         { title: 'Cool Cat', artist: 'Queen', file: 'Cool Cat.mp3' },
-        { title: 'Everywhere', artist: 'Fleetwood Mac', file: 'Everywhere.mp3' },
+        { title: 'Everywhere', artist: 'Fleetwood Mac', file: 'Everywhere - Fleetwood Mac.mp3' },
         { title: 'Going Gets Tough', artist: 'Nina Simone', file: 'Going Gets Tough.mp3' },
         { title: 'Here Comes The Sun', artist: 'The Beatles', file: 'Here Comes The Sun.mp3' },
         { title: 'Hooked On A Feeling', artist: 'Blue Swede', file: 'Hooked On A Feeling.mp3' },
         { title: 'How Deep Is Your Love', artist: 'Bee Gees', file: 'How Deep Is Your Love.mp3' },
-        { title: 'Say you love me', artist: 'Fleetwood Mac', file: 'Say You Love Me.mp3' },
+        { title: 'Say You Love Me', artist: 'Fleetwood Mac', file: 'Say You Love Me - Fleetwood Mac.mp3' },
         { title: 'I Want To Hold Your Hand', artist: 'The Beatles', file: 'I Want To Hold Your Hand.mp3' },
         { title: 'Spooky', artist: 'Dusty Springfield', file: 'Spooky.mp3' },
         { title: 'It\'s Not For Me To Say', artist: 'Johnny Mathis', file: 'It\'s Not For Me To Say.mp3' },
@@ -1030,33 +946,40 @@ function initMusicLogic() {
     
     // Gestion du clic sur le vinyle
     vinylImage.addEventListener('click', () => {
+        vinylContainer.style.transition = 'opacity 0.8s ease';
         vinylContainer.style.opacity = '0';
         setTimeout(() => {
             vinylContainer.style.display = 'none';
             playerContainer.classList.add('visible');
             playerContainer.style.opacity = '0';
+            playerContainer.style.transition = 'opacity 0.8s ease';
             setTimeout(() => {
                 playerContainer.style.opacity = '1';
             }, 100);
-        }, 500);
+        }, 800);
     });
     
     // Gestion du clic sur les chansons de la playlist
     playlistElement.addEventListener('click', (e) => {
         if (e.target.classList.contains('playlist-item')) {
             const clickedIndex = parseInt(e.target.dataset.index);
-            if (clickedIndex === currentSongIndex && isPlaying) {
-                // Double clic sur la même chanson -> reprise
-                currentSongIndex = 0;
-                updateActiveSong();
-                loadSong(currentSongIndex);
-                playSong();
-            } else {
-                currentSongIndex = clickedIndex;
-                updateActiveSong();
-                loadSong(currentSongIndex);
-                playSong();
+            
+            if (clickedIndex === currentSongIndex) {
+                // Clic sur la chanson déjà sélectionnée
+                if (isPlaying) {
+                    pauseSong();
+                } else {
+                    playSong();
+                }
+                // Ne rien faire d'autre - pas de rechargement
+                return;
             }
+            
+            // Chanson différente - la charger et jouer
+            currentSongIndex = clickedIndex;
+            updateActiveSong();
+            loadSong(currentSongIndex);
+            playSong();
         }
     });
     
@@ -1064,26 +987,49 @@ function initMusicLogic() {
     function loadSong(index) {
         if (currentAudio) {
             currentAudio.pause();
-            currentAudio.remove();
+            currentAudio.src = ''; // Nettoyer l'URL
+            currentAudio.load(); // Forcer le déchargement
         }
         
         const song = playlist[index];
-        currentAudio = new Audio(`playlist/${song.file}`);
+        currentAudio = new Audio();
+        
+        // Configuration de l'audio
+        currentAudio.preload = 'auto';
+        currentAudio.crossOrigin = 'anonymous';
+        
+        // Gestion des erreurs de chargement
+        currentAudio.addEventListener('error', (e) => {
+            console.error('Erreur de chargement audio:', e);
+            console.error('Fichier:', `playlist/${song.file}`);
+            // Essayer avec un chemin absolu si le relatif ne fonctionne pas
+            currentAudio.src = `./playlist/${song.file}`;
+        });
+        
+        // Charger le fichier audio
+        currentAudio.src = `playlist/${song.file}`;
+        currentAudio.load(); // Forcer le chargement
+        
         currentAudio.addEventListener('ended', () => {
             if (isLooping) {
                 // Rejouer la même chanson
                 currentAudio.currentTime = 0;
-                currentAudio.play();
+                currentAudio.play().catch(e => console.error('Erreur loop:', e));
             } else {
                 // Passer à la chanson suivante
                 currentSongIndex = (currentSongIndex + 1) % playlist.length;
                 updateActiveSong();
+                loadSong(currentSongIndex);
                 playSong();
             }
         });
         
-        currentAudio.addEventListener('error', (e) => {
-            console.error('Erreur de chargement audio:', e);
+        currentAudio.addEventListener('loadeddata', () => {
+            console.log('Audio chargé avec succès:', song.title);
+        });
+        
+        currentAudio.addEventListener('canplay', () => {
+            console.log('Audio prêt à jouer:', song.title);
         });
     }
     
@@ -1103,9 +1049,20 @@ function initMusicLogic() {
         playPauseBtn.textContent = '⏸️';
         spinningVinyl.classList.add('spinning');
         
-        currentAudio.play().catch(error => {
-            console.error('Erreur de lecture:', error);
-        });
+        // Attendre que l'audio soit prêt avant de jouer
+        const playPromise = currentAudio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log('Lecture démarrée:', playlist[currentSongIndex].title);
+            }).catch(error => {
+                console.error('Erreur de lecture:', error);
+                // Réessayer après un délai
+                setTimeout(() => {
+                    currentAudio.play().catch(e => console.error('Second tentative:', e));
+                }, 500);
+            });
+        }
     }
     
     function pauseSong() {
@@ -1378,78 +1335,25 @@ function initMusicLogic() {
             element.style.top = pos.y + 'px';
         }
         
-        // Détecter si c'est un appareil tactile
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        // Événements souris
+        element.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
         
-        if (isTouchDevice) {
-            // Événements tactiles pour mobile
-            element.addEventListener('touchstart', touchStart, { passive: false });
-            document.addEventListener('touchmove', touchMove, { passive: false });
-            document.addEventListener('touchend', touchEnd);
-        } else {
-            // Événements souris pour desktop
-            element.addEventListener('mousedown', dragStart);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', dragEnd);
-        }
-        
-        function touchStart(e) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            startX = touch.clientX;
-            startY = touch.clientY;
-            
-            // Position initiale de l'élément
-            initialLeft = parseInt(element.style.left) || 0;
-            initialTop = parseInt(element.style.top) || 0;
-            
-            if (e.target === element) {
-                isDragging = true;
-                element.style.zIndex = '1002';
-                element.style.transform = 'scale(1.2)';
-                element.style.boxShadow = '0 8px 25px rgba(0,0,0,0.4)';
-                element.style.cursor = 'grabbing';
-            }
-        }
-        
-        function touchMove(e) {
-            if (isDragging) {
-                e.preventDefault();
-                const touch = e.touches[0];
-                
-                // Calculer la différence de position
-                const deltaX = touch.clientX - startX;
-                const deltaY = touch.clientY - startY;
-                
-                // Appliquer la différence à la position initiale
-                const newLeft = initialLeft + deltaX;
-                const newTop = initialTop + deltaY;
-                
-                element.style.left = newLeft + 'px';
-                element.style.top = newTop + 'px';
-            }
-        }
-        
-        function touchEnd(e) {
-            if (isDragging) {
-                isDragging = false;
-                element.style.zIndex = '1001';
-                element.style.transform = 'scale(1)';
-                element.style.boxShadow = '0 3px 10px rgba(0,0,0,0.3)';
-                element.style.cursor = 'move';
-                
-                // Sauvegarder la position finale
-                const finalLeft = parseInt(element.style.left) || 0;
-                const finalTop = parseInt(element.style.top) || 0;
-                const position = { x: finalLeft, y: finalTop };
-                localStorage.setItem(element.src, JSON.stringify(position));
-            }
-        }
+        // Événements tactiles pour mobile
+        element.addEventListener('touchstart', dragStart, { passive: false });
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', dragEnd);
         
         function dragStart(e) {
-            // Position de la souris au début du drag
-            startX = e.clientX;
-            startY = e.clientY;
+            // Position de départ (souris ou tactile)
+            if (e.type === 'touchstart') {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            } else {
+                startX = e.clientX;
+                startY = e.clientY;
+            }
             
             // Position initiale de l'élément
             initialLeft = parseInt(element.style.left) || 0;
@@ -1461,7 +1365,7 @@ function initMusicLogic() {
                 element.style.transform = 'scale(1.2)';
                 element.style.boxShadow = '0 8px 25px rgba(0,0,0,0.4)';
                 element.style.cursor = 'grabbing';
-                e.preventDefault(); // Empêche la sélection de texte
+                e.preventDefault(); // Empêche la sélection de texte et le scroll
             }
         }
         
@@ -1469,9 +1373,19 @@ function initMusicLogic() {
             if (isDragging) {
                 e.preventDefault();
                 
+                // Position actuelle (souris ou tactile)
+                let currentX, currentY;
+                if (e.type === 'touchmove') {
+                    currentX = e.touches[0].clientX;
+                    currentY = e.touches[0].clientY;
+                } else {
+                    currentX = e.clientX;
+                    currentY = e.clientY;
+                }
+                
                 // Calculer la différence de position
-                const deltaX = e.clientX - startX;
-                const deltaY = e.clientY - startY;
+                const deltaX = currentX - startX;
+                const deltaY = currentY - startY;
                 
                 // Appliquer la différence à la position initiale
                 const newLeft = initialLeft + deltaX;
@@ -1604,8 +1518,10 @@ function initMusicLogic() {
             zodiacSectionShown = true;
         }
     });
-    
-    // Gestion du focus de la page pour les feux d'artifice
+}
+
+// Initialiser les événements de contrôle des feux d'artifice
+function initFireworksEvents() {
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             // Page cachée - arrêter les feux d'artifice
@@ -1626,18 +1542,12 @@ function initMusicLogic() {
     });
     
     window.addEventListener('focus', () => {
-        // Fenêtre récupérée - reprendre les feux d'artifice
+        // Fenêtre récupérée - reprendre les feux d'artifice s'ils étaient actifs
         if (fireworksStarted) {
             startFireworks();
         }
     });
-    
-    // Simulation de fin de chanson pour le loop
-    setInterval(() => {
-        if (isPlaying && isLooping) {
-            // Simuler la fin de la chanson et la rejouer
-            // Dans une vraie implémentation, ceci serait déclenché par l'événement 'ended' de l'audio
-            console.log('Looping current song');
-        }
-    }, 3000); // Toutes les 3 secondes pour la simulation
 }
+
+// Appeler l'initialisation
+initFireworksEvents();
